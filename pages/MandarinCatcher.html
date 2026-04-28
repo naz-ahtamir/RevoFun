@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mandarin Catcher | RevoFun</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    @font-face {
+      font-family: "Bobby Jones";
+      src: url("/fonts/BobbyJones.woff2") format("woff2");
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      font-family: "Bobby Jones", "Noto Sans CJK SC", monospace;
+      overflow: hidden;
+    }
+
+    canvas {
+      cursor: pointer;
+      display: block;
+      margin: 0 auto;
+      border-radius: 22px;
+      background: white;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .modal-overlay {
+      background: rgba(0, 0, 0, 0.75);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+    }
+  </style>
+</head>
+
+<body class="bg-[url('/images/bg-mandarin-catcher.png')] bg-cover min-h-screen flex items-center justify-center p-3">
+  <div class="w-full max-w-7xl mx-auto flex flex-col items-center gap-3 relative">
+    <!-- Header -->
+    <div class="px-6 py-3 flex flex-wrap justify-between items-center w-full gap-2">
+      <div class="flex items-center gap-3">
+        <img src="/images/logo-revofun.png" alt="Logo" class="h-22 w-auto object-contain" />
+        <div>
+          <div class="text-3xl text-[#A17359] font-bold">TOP SCORER</div>
+          <div id="topScorerList" class="text-[#A17359] font-bold text-2xl leading-tight">-</div>
+        </div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl font-bold text-[#A17359] tracking-widest">TANGKAP KOTAK HANZI YANG SESUAI</div>
+        <div id="questionText" class="text-2xl font-bold text-[#F8375A] tracking-widest">Memuat...</div>
+      </div>
+      <div class="flex items-center gap-4 whitespace-nowrap">
+        <div class="flex items-center gap-1">
+          <i class="fas fa-star text-yellow-500"></i>
+          <span class="text-[#F8375A] text-2xl font-bold">SKOR : </span>
+          <span id="scoreValue" class="text-[#F8375A] text-2xl font-bold">0</span>
+        </div>
+        <div class="flex items-center gap-1">
+          <i class="fas fa-heart text-red-500"></i>
+          <span class="text-[#F8375A] text-2xl font-bold">SISA KESEMPATAN : </span>
+          <span id="livesValue" class="text-[#F8375A] text-2xl font-bold">3</span>
+        </div>
+      </div>
+    </div>
+
+    <canvas id="gameCanvas" width="1100" height="580"
+      class="shadow-2xl bg-whitew-full max-w-[1100px] h-auto max-h-[68vh]"></canvas>
+
+    <div class="w-full flex justify-between items-center mt-2 px-2">
+      <button id="backHomeBtn" type="button" title="Back to Home" onclick="window.location.href='/index.html'"
+        class="fixed bottom-5 left-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10">
+        <i class="fas fa-home"></i>
+      </button>
+      <button id="resetBottomBtn" title="Reset Game"
+        class="fixed bottom-5 right-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10">
+        <i class="fas fa-sync"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL GAME OVER (hanya tombol simpan) -->
+  <div id="gameOverModal" class="hidden fixed inset-0 bg-[#DBCEB2] z-50 items-center justify-center modal-overlay">
+    <div class="bg-[#DBCEB2] rounded-xl p-6 max-w-md w-full text-center shadow-2xl font-['Bobby Jones'] mx-4">
+      <h2 class="text-4xl font-bold text-red-600 mb-2">GAME OVER!</h2>
+      <p class="text-xl font-semibold mb-2">Skor Akhir: <span id="finalScoreModal">0</span></p>
+      <p class="mb-1 text-2xl">Masukkan nama:</p>
+      <input type="text" id="playerNameInput" class="bg-white/50 text-3xl p-2 rounded-xl w-full my-2 text-center"
+        placeholder="Nama" maxlength="20">
+      <div id="modalLeaderboardList"
+        class="bg-white/50 rounded-xl p-3 my-3 text-center max-h-32 overflow-y-auto text-xl">
+      </div>
+      <div class="gap-3 mt-3">
+        <button id="saveScoreBtn"
+          class="bg-green-600 text-white px-6 py-2 items-center justify-center rounded-full mt-2">Simpan & Main
+          Lagi</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // ---------- 250+ KOSAKATA ----------
+      const buildVocab = () => {
+        const base = [
+          ["你好", "nǐ hǎo", "Halo"],
+          ["谢谢", "xiè xie", "Terima kasih"],
+          ["对不起", "duì bu qǐ", "Maaf"],
+          ["再见", "zài jiàn", "Selamat tinggal"],
+          ["老师", "lǎo shī", "Guru"],
+          ["学生", "xué sheng", "Murid"],
+          ["学校", "xué xiào", "Sekolah"],
+          ["书", "shū", "Buku"],
+          ["笔", "bǐ", "Pena"],
+          ["苹果", "píng guǒ", "Apel"],
+          ["香蕉", "xiāng jiāo", "Pisang"],
+          ["水", "shuǐ", "Air"],
+          ["茶", "chá", "Teh"],
+          ["米饭", "mǐ fàn", "Nasi"],
+          ["面条", "miàn tiáo", "Mie"],
+          ["好吃", "hǎo chī", "Enak"],
+          ["妈妈", "mā ma", "Ibu"],
+          ["爸爸", "bà ba", "Ayah"],
+          ["哥哥", "gē ge", "Kakak laki"],
+          ["姐姐", "jiě jie", "Kakak perempuan"],
+          ["朋友", "péng you", "Teman"],
+          ["中国", "zhōng guó", "Tiongkok"],
+          ["北京", "běi jīng", "Beijing"],
+          ["长城", "cháng chéng", "Tembok Besar"],
+          ["龙", "lóng", "Naga"],
+          ["灯笼", "dēng long", "Lampion"],
+          ["红包", "hóng bāo", "Angpao merah"],
+          ["春节", "chūn jié", "Tahun Baru Imlek"],
+          ["月饼", "yuè bǐng", "Kue bulan"],
+          ["美丽", "měi lì", "Cantik"],
+          ["高兴", "gāo xìng", "Senang"],
+          ["大", "dà", "Besar"],
+          ["小", "xiǎo", "Kecil"],
+          ["多", "duō", "Banyak"],
+          ["少", "shǎo", "Sedikit"],
+          ["去", "qù", "Pergi"],
+          ["来", "lái", "Datang"],
+          ["吃", "chī", "Makan"],
+          ["喝", "hē", "Minum"],
+          ["看", "kàn", "Melihat"],
+          ["听", "tīng", "Mendengar"],
+          ["说", "shuō", "Berbicara"],
+          ["读", "dú", "Membaca"],
+          ["写", "xiě", "Menulis"],
+          ["买", "mǎi", "Membeli"],
+          ["卖", "mài", "Menjual"],
+          ["坐", "zuò", "Duduk"],
+          ["站", "zhàn", "Berdiri"],
+          ["今天", "jīn tiān", "Hari ini"],
+          ["明天", "míng tiān", "Besok"],
+          ["昨天", "zuó tiān", "Kemarin"],
+          ["早上", "zǎo shang", "Pagi hari"],
+          ["晚上", "wǎn shang", "Malam hari"],
+          ["现在", "xiàn zài", "Sekarang"],
+          ["星期", "xīng qī", "Minggu"],
+          ["月", "yuè", "Bulan (waktu)"],
+          ["年", "nián", "Tahun"],
+          ["猫", "māo", "Kucing"],
+          ["狗", "gǒu", "Anjing"],
+          ["鸟", "niǎo", "Burung"],
+          ["鱼", "yú", "Ikan"],
+          ["花", "huā", "Bunga"],
+          ["草", "cǎo", "Rumput"],
+          ["山", "shān", "Gunung"],
+          ["河", "hé", "Sungai"],
+          ["天", "tiān", "Langit"],
+          ["地", "dì", "Tanah"],
+          ["红色", "hóng sè", "Merah"],
+          ["蓝色", "lán sè", "Biru"],
+          ["黄色", "huáng sè", "Kuning"],
+          ["绿色", "lǜ sè", "Hijau"],
+          ["白色", "bái sè", "Putih"],
+          ["黑色", "hēi sè", "Hitam"],
+          ["快乐", "kuài lè", "Gembira"],
+          ["难过", "nán guò", "Sedih"],
+          ["忙", "máng", "Sibuk"],
+          ["累", "lèi", "Lelah"],
+          ["快", "kuài", "Cepat"],
+          ["慢", "màn", "Lambat"],
+          ["高", "gāo", "Tinggi"],
+          ["矮", "ǎi", "Pendek"],
+          ["新", "xīn", "Baru"],
+          ["旧", "jiù", "Lama"],
+          ["贵", "guì", "Mahal"],
+          ["便宜", "pián yi", "Murah"],
+          ["医院", "yī yuàn", "Rumah sakit"],
+          ["商店", "shāng diàn", "Toko"],
+          ["饭店", "fàn diàn", "Restoran"],
+          ["厕所", "cè suǒ", "Toilet"],
+          ["飞机", "fēi jī", "Pesawat"],
+          ["火车", "huǒ chē", "Kereta"],
+          ["汽车", "qì chē", "Mobil"],
+          ["自行车", "zì xíng chē", "Sepeda"],
+        ];
+        let vocab = base.map((v) => ({
+          hanzi: v[0],
+          pinyin: v[1],
+          arti: v[2],
+        }));
+        const extra = [
+          ["弟弟", "dì di", "Adik laki"],
+          ["妹妹", "mèi mei", "Adik perempuan"],
+          ["丈夫", "zhàng fu", "Suami"],
+          ["妻子", "qī zi", "Istri"],
+          ["工作", "gōng zuò", "Bekerja"],
+          ["学习", "xué xí", "Belajar"],
+          ["唱歌", "chàng gē", "Menyanyi"],
+          ["跳舞", "tiào wǔ", "Menari"],
+          ["电脑", "diàn nǎo", "Komputer"],
+          ["手机", "shǒu jī", "HP"],
+          ["电视", "diàn shì", "TV"],
+          ["电影", "diàn yǐng", "Film"],
+          ["功夫", "gōng fu", "Kungfu"],
+          ["太极", "tài jí", "Taichi"],
+          ["书法", "shū fǎ", "Kaligrafi"],
+          ["绘画", "huì huà", "Melukis"],
+          ["医生", "yī shēng", "Dokter"],
+          ["护士", "hù shi", "Perawat"],
+          ["警察", "jǐng chá", "Polisi"],
+          ["律师", "lǜ shī", "Pengacara"],
+          ["春天", "chūn tiān", "Musim semi"],
+          ["夏天", "xià tiān", "Musim panas"],
+          ["秋天", "qiū tiān", "Musim gugur"],
+          ["冬天", "dōng tiān", "Musim dingin"],
+          ["下雨", "xià yǔ", "Hujan"],
+          ["下雪", "xià xuě", "Salju"],
+          ["风", "fēng", "Angin"],
+          ["云", "yún", "Awan"],
+          ["月亮", "yuè liang", "Bulan (rembulan)"],
+          ["太阳", "tài yáng", "Matahari"],
+          ["星星", "xīng xing", "Bintang"],
+          ["大海", "dà hǎi", "Laut"],
+          ["森林", "sēn lín", "Hutan"],
+        ];
+        for (let e of extra)
+          if (vocab.length < 250)
+            vocab.push({ hanzi: e[0], pinyin: e[1], arti: e[2] });
+        const originalLength = vocab.length;
+        while (vocab.length < 250) {
+          const randomOriginal = vocab[Math.floor(Math.random() * originalLength)];
+          vocab.push({ ...randomOriginal });
+        }
+        return vocab.slice(0, 250);
+      };
+      const FULL_VOCAB = buildVocab();
+
+
+      // ========== DOM ==========
+      const canvas = document.getElementById("gameCanvas");
+      const ctx = canvas.getContext("2d");
+      const scoreSpan = document.getElementById("scoreValue");
+      const livesSpan = document.getElementById("livesValue");
+      const questionTextEl = document.getElementById("questionText");
+      const resetBottomBtn = document.getElementById("resetBottomBtn");
+      const topScorerListDiv = document.getElementById("topScorerList");
+      const modal = document.getElementById("gameOverModal");
+      const finalScoreSpan = document.getElementById("finalScoreModal");
+      const playerNameInput = document.getElementById("playerNameInput");
+      const saveScoreBtn = document.getElementById("saveScoreBtn");
+      const modalRestartBtn = document.getElementById("modalRestartBtn");
+      const modalLeaderboardList = document.getElementById("modalLeaderboardList");
+
+      // Cek apakah modal ditemukan (debug)
+      console.log("Modal element:", modal);
+
+      let canvasWidth = 1100, canvasHeight = 580;
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+
+      // Game state
+      let player = { x: canvasWidth / 2, width: 100, height: 58 };
+      let kotakList = [];
+      let gameRunning = true;
+      let animationId = null;
+      let score = 0;
+      let lives = 3;
+      let currentQuestion = null;
+      let currentTargetHanzi = "";
+      let spawnInterval = null;
+      let floatingEffects = [];
+      let topScores = [];
+
+      // ========== Top Scorer ==========
+      function loadTopScores() {
+        const stored = localStorage.getItem("kotak_mandarin_scores");
+        if (stored) {
+          try { topScores = JSON.parse(stored); } catch (e) { topScores = []; }
+        }
+        if (!Array.isArray(topScores)) topScores = [];
+        topScores.sort((a, b) => b.score - a.score);
+        topScores = topScores.slice(0, 5);
+        renderLeaderboard();
+      }
+      function saveTopScores() {
+        topScores.sort((a, b) => b.score - a.score);
+        topScores = topScores.slice(0, 5);
+        localStorage.setItem("kotak_mandarin_scores", JSON.stringify(topScores));
+        renderLeaderboard();
+        renderModalLeaderboard();
+      }
+      function renderLeaderboard() {
+        topScorerListDiv.innerHTML = "";
+        if (topScores.length === 0) {
+          topScorerListDiv.innerHTML = "<div>-</div>";
+          return;
+        }
+        // Hanya ambil skor tertinggi (peringkat 1)
+        const highest = topScores[0];
+        const div = document.createElement("div");
+        div.className = "text-2xl whitespace-nowrap";
+        div.textContent = `${highest.nick} : ${highest.score}`;
+        topScorerListDiv.appendChild(div);
+      }
+
+      function renderModalLeaderboard() {
+        if (!modalLeaderboardList) return;
+        modalLeaderboardList.innerHTML = "<p class='font-bold'>TOP SCORER</p>";
+        if (topScores.length === 0) {
+          modalLeaderboardList.innerHTML += "<p class='text-gray-500'>Belum ada skor</p>";
+        } else {
+          topScores.forEach((s, i) => {
+            modalLeaderboardList.innerHTML += `<div class='text-sm'>${i + 1}. ${s.nick} — ${s.score} poin</div>`;
+          });
+        }
+      }
+      function addScoreToLeaderboard(nick, finalScore) {
+        if (finalScore === 0) return;
+        const name = nick.trim() || "Anonim";
+        const existing = topScores.find(entry => entry.nick === name);
+        if (existing) {
+          if (finalScore > existing.score) existing.score = finalScore;
+        } else {
+          topScores.push({ nick: name, score: finalScore });
+        }
+        saveTopScores();
+      }
+
+      // ========== Game Mechanics ==========
+      function generateNewQuestion() {
+        const randomIdx = Math.floor(Math.random() * FULL_VOCAB.length);
+        currentQuestion = { ...FULL_VOCAB[randomIdx] };
+        currentTargetHanzi = currentQuestion.hanzi;
+        questionTextEl.innerHTML = `${currentQuestion.arti.toUpperCase()}     (${currentQuestion.pinyin})     ${currentQuestion.hanzi}`;
+      }
+
+      function createKotak(text, isCorrect, x = null, y = null) {
+        const chars = text.split("");
+        const charHeight = 28;
+        const paddingVertical = 20;
+        let height = chars.length * charHeight + paddingVertical;
+        height = Math.max(70, height);
+        let width = 46;
+        return {
+          x: x !== null ? x : 35 + Math.random() * (canvasWidth - width - 35),
+          y: y !== null ? y : -height - Math.random() * 50,
+          width: width,
+          height: height,
+          speed: 1.2 + Math.random() * 2.2,
+          text: text,
+          isCorrect: isCorrect,
+        };
+      }
+
+      function addSingleKotak() {
+        if (!gameRunning || kotakList.length > 16) return;
+        let isCorrect = false;
+        let textChoice = "";
+        if (Math.random() < 0.25 && !kotakList.some(k => k.isCorrect === true)) {
+          isCorrect = true;
+          textChoice = currentTargetHanzi;
+        } else {
+          const wrongs = FULL_VOCAB.filter(v => v.hanzi !== currentTargetHanzi).map(v => v.hanzi);
+          textChoice = wrongs.length ? wrongs[Math.floor(Math.random() * wrongs.length)] : "书";
+          isCorrect = (textChoice === currentTargetHanzi);
+        }
+        const newBox = createKotak(textChoice, isCorrect);
+        newBox.x = 30 + Math.random() * (canvasWidth - newBox.width - 30);
+        newBox.y = -newBox.height;
+        kotakList.push(newBox);
+      }
+
+      function addFloatingText(msg, x, y) {
+        floatingEffects.push({ text: msg, x: x, y: y, life: 20 });
+      }
+
+      function updateKotak() {
+        for (let i = 0; i < kotakList.length; i++) {
+          kotakList[i].y += kotakList[i].speed;
+          if (kotakList[i].y > canvasHeight + 150) {
+            kotakList.splice(i, 1);
+            i--;
+          }
+        }
+      }
+
+      function handleCollisions() {
+        if (!gameRunning) return;
+        const basketLeft = player.x - player.width / 2;
+        const basketRight = player.x + player.width / 2;
+        const basketTop = canvasHeight - player.height;
+        const basketBottom = canvasHeight;
+
+        for (let i = 0; i < kotakList.length; i++) {
+          const k = kotakList[i];
+          const boxLeft = k.x;
+          const boxRight = k.x + k.width;
+          const boxTop = k.y;
+          const boxBottom = k.y + k.height;
+
+          if (basketRight > boxLeft && basketLeft < boxRight && basketBottom > boxTop && basketTop < boxBottom) {
+            if (k.isCorrect) {
+              score += 10;
+              scoreSpan.innerText = score;
+              addFloatingText("✔️ 正确! +10", k.x + k.width / 2, k.y);
+              generateNewQuestion();
+              currentTargetHanzi = currentQuestion.hanzi;
+              kotakList.splice(i, 1);
+              break;
+            } else {
+              lives--;
+              livesSpan.innerText = lives;
+              addFloatingText("✗ 错误! ♡", k.x + k.width / 2, k.y);
+              kotakList.splice(i, 1);
+              if (lives <= 0) {
+                endGame();  // endGame() yang akan set gameRunning = false
+                return;
+              }
+              i--;
+            }
+          }
+        }
+      }
+
+      function endGame() {
+        gameRunning = false;
+        if (spawnInterval) clearInterval(spawnInterval);
+        if (animationId) cancelAnimationFrame(animationId);
+
+        finalScoreSpan.innerText = score;
+        renderModalLeaderboard();
+        playerNameInput.value = "";
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+
+        drawGameOverCanvas();
+      }
+
+      function resetGame(keepScore = false, nick = null) {
+        if (keepScore && nick && score > 0) {
+          addScoreToLeaderboard(nick, score);
+        }
+        if (spawnInterval) clearInterval(spawnInterval);
+        if (animationId) cancelAnimationFrame(animationId);
+        gameRunning = true;
+        score = 0;
+        lives = 3;
+        scoreSpan.innerText = "0";
+        livesSpan.innerText = "3";
+        kotakList = [];
+        floatingEffects = [];
+        player.x = canvasWidth / 2;
+        generateNewQuestion();
+        currentTargetHanzi = currentQuestion.hanzi;
+        for (let i = 0; i < 5; i++) addSingleKotak();
+        animationId = requestAnimationFrame(gameLoop);
+        spawnInterval = setInterval(() => {
+          if (gameRunning) addSingleKotak();
+        }, 1600);
+        if (modal) {
+          modal.classList.add("hidden");
+          modal.classList.remove("flex");
+        }
+      }
+
+      // ========== Drawing ==========
+      function drawVerticalTextInBox(ctx, text, x, y, boxWidth, boxHeight) {
+        const chars = text.split("");
+        const centerX = x + boxWidth / 2;
+        const charHeight = 28;
+        const totalHeight = chars.length * charHeight;
+        let startY = y + (boxHeight - totalHeight) / 2;
+        ctx.font = `bold 22px "Noto Sans CJK SC", "Bobby Jones"`;
+        ctx.fillStyle = "#FFF8E7";
+        ctx.shadowBlur = 2;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        for (let i = 0; i < chars.length; i++) {
+          ctx.fillText(chars[i], centerX, startY + i * charHeight + charHeight / 2);
+        }
+        ctx.textAlign = "left";
+        ctx.textBaseline = "alphabetic";
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        ctx.fillStyle = "#eeddbb";
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        for (let i = 0; i < 200; i++) {
+          ctx.fillStyle = `rgba(160,100,40,${0.08 + Math.sin(Date.now() * 0.002 + i) * 0.04})`;
+          ctx.beginPath();
+          ctx.arc((i * 91) % canvasWidth, (i * 53) % canvasHeight, 2.2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        for (let k of kotakList) {
+          ctx.shadowBlur = 5;
+          ctx.fillStyle = "#D13A2A";
+          ctx.beginPath();
+          ctx.roundRect(k.x, k.y, k.width, k.height, 12);
+          ctx.fill();
+          ctx.fillStyle = "#F6C445";
+          ctx.beginPath();
+          ctx.roundRect(k.x + 4, k.y + 4, k.width - 8, k.height - 8, 8);
+          ctx.fill();
+          ctx.strokeStyle = "#FFB347";
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.roundRect(k.x, k.y, k.width, k.height, 12);
+          ctx.stroke();
+          drawVerticalTextInBox(ctx, k.text, k.x, k.y, k.width, k.height);
+        }
+        ctx.font = `bold 68px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", monospace`;
+        ctx.fillStyle = "#8B5A2B";
+        ctx.shadowBlur = 4;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("🧺", player.x, canvasHeight - player.height / 2);
+        ctx.textAlign = "left";
+        for (let i = 0; i < floatingEffects.length; i++) {
+          let ef = floatingEffects[i];
+          ctx.font = "bold 18px 'Bobby Jones'";
+          ctx.fillStyle = `rgba(30,20,10,${ef.life / 20})`;
+          ctx.fillText(ef.text, ef.x - 25, ef.y - 25 - (20 - ef.life));
+          ef.life--;
+          if (ef.life <= 0) floatingEffects.splice(i, 1), i--;
+        }
+        ctx.shadowBlur = 0;
+      }
+
+      function drawGameOverCanvas() {
+        ctx.fillStyle = "rgba(30,15,5,0.88)";
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        ctx.font = "bold 44px 'Bobby Jones'";
+        ctx.fillStyle = "#FFCF72";
+        ctx.textAlign = "center";
+        ctx.fillText("PERMAINAN BERHENTI", canvasWidth / 2, canvasHeight / 2 - 30);
+        ctx.font = "33px 'Bobby Jones'";
+        ctx.fillStyle = "#F5BC6E";
+        ctx.fillText("Tekan RESTART untuk bermain lagi", canvasWidth / 2, canvasHeight / 2 + 40);
+      }
+
+      function gameLoop() {
+        if (!gameRunning) {
+          drawGameOverCanvas();
+          return;  // sudah benar, tidak perlu requestAnimationFrame lagi
+        }
+        updateKotak();
+        handleCollisions();
+        draw();
+        animationId = requestAnimationFrame(gameLoop);
+      }
+
+      // ========== Event Handlers ==========
+      function onMouseMove(e) {
+        if (!gameRunning) return;
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvasWidth / rect.width;
+        let mouseX = (e.clientX - rect.left) * scaleX;
+        mouseX = Math.min(Math.max(mouseX, player.width / 2 + 5), canvasWidth - player.width / 2 - 5);
+        player.x = mouseX;
+      }
+      function onTouchMove(e) {
+        e.preventDefault();
+        if (!gameRunning) return;
+        const rect = canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        const scaleX = canvasWidth / rect.width;
+        let touchX = (touch.clientX - rect.left) * scaleX;
+        touchX = Math.min(Math.max(touchX, player.width / 2 + 5), canvasWidth - player.width / 2 - 5);
+        player.x = touchX;
+      }
+      canvas.addEventListener("mousemove", onMouseMove);
+      canvas.addEventListener("touchmove", onTouchMove, { passive: false });
+      canvas.addEventListener("touchstart", (e) => e.preventDefault());
+
+      resetBottomBtn.addEventListener("click", () => {
+        if (!gameRunning) {
+          // Jika game sedang game over, tutup modal dan reset
+          if (modal) modal.classList.add("hidden");
+        }
+        resetGame(false, null);
+      });
+
+      saveScoreBtn.addEventListener("click", () => {
+        let nick = playerNameInput.value.trim();
+        if (nick === "") nick = "Anonim";
+        if (score > 0) addScoreToLeaderboard(nick, score);
+        resetGame(false, null);
+      });
+
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && gameRunning) {
+          e.preventDefault();
+          endGame();
+        }
+      });
+
+      // Helper roundRect
+      if (!CanvasRenderingContext2D.prototype.roundRect) {
+        CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+          if (w < 2 * r) r = w / 2;
+          if (h < 2 * r) r = h / 2;
+          this.moveTo(x + r, y);
+          this.lineTo(x + w - r, y);
+          this.quadraticCurveTo(x + w, y, x + w, y + r);
+          this.lineTo(x + w, y + h - r);
+          this.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+          this.lineTo(x + r, y + h);
+          this.quadraticCurveTo(x, y + h, x, y + h - r);
+          this.lineTo(x, y + r);
+          this.quadraticCurveTo(x, y, x + r, y);
+          return this;
+        };
+      }
+
+      // ========== START ==========
+      loadTopScores();
+      generateNewQuestion();
+      currentTargetHanzi = currentQuestion.hanzi;
+      for (let i = 0; i < 4; i++) addSingleKotak();
+      animationId = requestAnimationFrame(gameLoop);
+      spawnInterval = setInterval(() => {
+        if (gameRunning) addSingleKotak();
+      }, 1600);
+    })();
+  </script>
+</body>
+
+</html>

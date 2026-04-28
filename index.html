@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RevoFun | Belajar Mandarin Jadi Seru</title>
+  <!-- Tambahkan favicon -->
+  <link rel="icon" type="image/png" href="/images/favicon-new.png" />
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    @font-face {
+      font-family: "Bobby Jones";
+      src: url("/fonts/BobbyJones.woff2") format("woff2");
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      font-family: "Bobby Jones", sans-serif;
+    }
+
+    /* Animasi float untuk elemen dekoratif */
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .float-animation {
+      animation: float 2s ease-in-out infinite;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Animasi mengambang seperti awan — gerakan & waktu berbeda tiap kartu */
+    @keyframes float1 {
+      0% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-12px);
+      }
+
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    @keyframes float2 {
+      0% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    @keyframes float3 {
+      0% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-15px);
+      }
+
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    @keyframes float4 {
+      0% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-6px);
+      }
+
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    .float-card-1 {
+      animation: float1 3.2s ease-in-out infinite;
+    }
+
+    .float-card-2 {
+      animation: float2 2.8s ease-in-out 0.2s infinite;
+    }
+
+    .float-card-3 {
+      animation: float3 3.6s ease-in-out 0.5s infinite;
+    }
+
+    .float-card-4 {
+      animation: float4 2.5s ease-in-out 0.1s infinite;
+    }
+
+    /* Efek tambahan supaya transisi halus saat hover tetap berjalan */
+    .game-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .game-card:hover {
+      transform: scale(1.02) translateY(-4px);
+      box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+
+<body class="bg-[url('/images/bg-index.png')] bg-center bg-cover font-['BobbyJones'] antialiased overflow-x-hidden">
+  <!-- ==================== NAVIGASI ==================== -->
+  <nav class="fixed top-0 left-0 w-full z-50 bg-[#D3F2FF] text-xl">
+    <div class="flex justify-between items-center w-full px-8 py-4">
+      <!-- Logo dengan gambar -->
+      <div class="flex items-center">
+        <img src="images/name-logo-revofun.png" alt="RevoFun Logo" class="h-12 w-auto object-contain" />
+      </div>
+      <!-- Desktop Menu -->
+      <ul class="flex gap-8 font-medium">
+        <li>
+          <a href="#home" class="text-[#042165]">Home</a>
+        </li>
+        <li>
+          <a href="#games" class="text-[#F59231]">Games</a>
+        </li>
+        <li>
+          <a href="#about" class="text-[#417A58]">About</a>
+        </li>
+        <li>
+          <a href="#connect" class="text-[#000000]">Connect</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section id="home"
+    class="min-h-screen flex flex-col justify-center items-center text-center px-5 relative overflow-hidden">
+    <div class="max-w-5xl animate-fade-in-up relative z-10">
+      <h1 class="text-7xl mb-5 font-['Bobby Jones'] tracking-widest">
+        <span class="text-[#041D58]">Selamat Datang di</span><br />
+        <img src="images/name-revofun.png" alt="RevoFun Logo"
+          class="max-w-[555px] w-full mx-auto mt-2 mt-7 mb-7 drop-shadow-lg float-animation" />
+      </h1>
+      <p class="w-full text-[#041D58] text-2xl mb-8 font-medium drop-shadow-md tracking-widest">
+        Platform game modern yang bikin belajar Mandarin jadi seru—langsung
+        dari browser kamu, 100% gratis dan tanpa ribet download. Mainkan
+        berbagai game seru dengan tampilan fresh dan tantangan interaktif,
+        bikin latihan kosakata jadi fun.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-5 justify-center">
+        <a href="#games"
+          class="bg-[#f59231] hover:bg-[#e07d1f] text-[#041D58] text-xl font-bold px-8 py-3 rounded-full shadow-xl shadow-[#f59231]/40 transition-all duration-300 hover:scale-105 hover:shadow-2xl flex items-center justify-center gap-2 tracking-widest">
+          <i class="fas fa-play"></i> Mulai Bermain
+        </a>
+        <a href="#about"
+          class="bg-[#50c15d] backdrop-blur-sm border border-white/30 text-xl hover:bg-[#50c15d] text-[#041D58] font-bold px-8 py-3 rounded-full transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 tracking-widest">
+          <i class="fas fa-info-circle"></i> Pelajari
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== GAMES SECTION ==================== -->
+  <section id="games" class="min-h-screen max-w-7xl mx-auto px-5 flex flex-col justify-center">
+    <div class="text-center mb-12">
+      <h2 class="text-7xl mb-3 font-['Bobby Jones'] text-[#f59231] drop-shadow-lg">
+        Koleksi Game Kami
+      </h2>
+      <p class="text-[#f59231] text-2xl font-medium tracking-widest">
+        Pilih game favoritmu dan mulailah petualangan seru!
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Card 1: Memory Match (warna #042165) -->
+      <a href="/pages/AturanMM.html"
+        class="game-card float-card-1 block rounded-2xl p-6 text-center transition-all duration-300 bg-[#042165] group">
+        <div class="w-20 h-20 rounded-full bg-[#F59231] flex items-center justify-center mx-auto mb-5 shadow-md">
+          <i class="fas fa-puzzle-piece text-4xl text-white"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2">Memory Match</h3>
+        <p class="text-amber-100 text-sm leading-relaxed">
+          Jodohkan hanzi dengan artinya! Latih ingatan Mandarinmu.
+        </p>
+        <div class="mt-5 inline-block text-sm font-semibold text-[#F59231] group-hover:underline">
+          Mainkan &rarr;
+        </div>
+      </a>
+
+      <!-- Card 2: Vocabulary Quiz (warna #F59231) -->
+      <a href="/pages/AturanVQ.html"
+        class="game-card float-card-2 block rounded-2xl p-6 text-center transition-all duration-300 bg-[#F59231] group">
+        <div class="w-20 h-20 rounded-full bg-[#042165] flex items-center justify-center mx-auto mb-5 shadow-md">
+          <i class="fas fa-book-open text-4xl text-white"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2">Vocabulary Quiz</h3>
+        <p class="text-amber-50 text-sm leading-relaxed">
+          Tantang dirimu! Pilih arti tepat dari 4 pilihan, naikin skor HSK-mu.
+        </p>
+        <div class="mt-5 inline-block text-sm font-semibold text-[#FFE0A3] group-hover:underline">
+          Mainkan &rarr;
+        </div>
+      </a>
+
+      <!-- Card 3: Number Guess (warna #417A58) -->
+      <a href="/pages/AturanNG.html"
+        class="game-card float-card-3 block rounded-2xl p-6 text-center transition-all duration-300 bg-[#417A58] group">
+        <div class="w-20 h-20 rounded-full bg-[#F59231] flex items-center justify-center mx-auto mb-5 shadow-md">
+          <i class="fas fa-hashtag text-4xl text-white"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2">Number Guess</h3>
+        <p class="text-green-50 text-sm leading-relaxed">
+          Tebak angka 1-100 pakai petunjuk "lebih besar/kecil" dalam Mandarin!
+        </p>
+        <div class="mt-5 inline-block text-sm font-semibold text-[#FFE0A3] group-hover:underline">
+          Mainkan &rarr;
+        </div>
+      </a>
+
+      <!-- Card 4: Avoid Falling (warna #000000) -->
+      <a href="/pages/AturanMC.html"
+        class="game-card float-card-4 block rounded-2xl p-6 text-center transition-all duration-300 bg-[#000000] group">
+        <div class="w-20 h-20 rounded-full bg-[#F59231] flex items-center justify-center mx-auto mb-5 shadow-md">
+          <i class="fas fa-cloud-rain text-4xl text-white"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2">Mandarin Catcher</h3>
+        <p class="text-gray-200 text-sm leading-relaxed">
+          Arahkan keranjangmu, tangkap kata Mandarin yang jatuh. Setiap kata tepat menambah skor dan hafalanmu!
+        </p>
+        <div class="mt-5 inline-block text-sm font-semibold text-[#F59231] group-hover:underline">
+          Mainkan &rarr;
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ==================== ABOUT SECTION ==================== -->
+  <section id="about" class="min-h-screen px-5 flex flex-col justify-center">
+    <div class="max-w-5xl mx-auto text-center font-['Bobby Jones'] justify-center">
+      <h2
+        class="float-animation text-7xl mb-5 text-[#417A58] drop-shadow flex gap-3 justify-center items-center mt-auto">
+        About US        
+      </h2>
+      <p class="w-full text-[#417A58] text-2xl leading-relaxed mb-8 p-6 rounded-2xl">
+        <img src="images/name-revofun.png" alt="RevoFun logo"
+          class="inline-block align-middle h-12 w-auto object-contain -mt-7" />
+        adalah studio game independen yang fokus bikin belajar Mandarin jadi
+        seru dan gampang diakses. Di sini, kosakata bukan lagi hafalan
+        membosankan, tapi tantangan interaktif yang bisa kamu mainkan kapan
+        saja, di mana saja, tanpa ribet instalasi. Buat kami, belajar bahasa
+        mandarin itu harus fun, seru, dan menyenangkan.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer id="connect" class="bottom-0 w-full left-0 z-40 text-xs bg-black px-4 py-2 font-sans">
+    <div class="flex flex-col gap-1 items-start ml-22">
+      <!-- Logo kecil -->
+      <img src="images/name-logo-revofun.png" alt="RevoFun Logo" class="h-7 w-auto object-contain mt-3" />
+      <!-- Ikon sosial media (opsional, kecil) -->
+      <div class="flex gap-2 text-white/70 text-xl">
+        <a href="#" class="hover:text-[#D3F2FF] transition"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="hover:text-[#D3F2FF] transition"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="hover:text-[#D3F2FF] transition"><i class="fab fa-tiktok"></i></a>
+        <a href="#" class="hover:text-[#D3F2FF] transition"><i class="fab fa-facebook"></i></a>
+        <a href="#" class="hover:text-[#D3F2FF] transition"><i class="fab fa-discord"></i></a>
+      </div>
+      <!-- Teks hak cipta -->
+      <span class="text-white/70 text-[11px] tracking-wider font-bold mb-8">By naz-ahtamir | &copy; 2026 RevoFun</span>
+    </div>
+  </footer>
+</body>
+
+</html>

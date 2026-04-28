@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cara Main – Vocabulary Quiz</title>
+    <!-- Tailwind + Google Fonts -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        @font-face {
+            font-family: "Bobby Jones";
+            src: url("/fonts/BobbyJones.woff2") format("woff2");
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            font-family: "Bobby Jones", "Noto Sans CJK SC", monospace;
+        }
+
+        .btn-fun {
+            transition: all 0.2s ease;
+        }
+
+        .btn-fun:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+
+        .rule-card {
+            transition: transform 0.2s;
+        }
+
+        .rule-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+
+<body class="bg-[url('/images/bg-vocabulary-quiz.png')] bg-cover min-h-screen w-full flex justify-center p-4 items-start">
+
+    <!-- Container utama full layar, fun & menarik -->
+    <div class="max-w-7xl w-full min-h-screen rounded-3xl flex flex-col scale-50 origin-center -translate-y-20  backdrop-blur bg-white/50 justify-center items-center">
+        <!-- Header dengan animasi sederhana -->
+        <div class="text-center py-6 px-4">
+            <h1 class="text-6xl font-black text-[#DBCEB2] tracking-wider drop-shadow-lg font-['Bobby Jones']">
+                ATURAN MAIN
+            </h1>
+            <p class="text-[#AA9F8D] font-bold mt-1 text-6xl">VOCABULARY QUIZ</p>
+        </div>
+
+        <!-- Area aturan main (scroll halus tapi cukup muat) -->
+        <div class="p-3 space-y-5 text-center">
+            <!-- Aturan detail + tips interaktif -->
+            <div class="rounded-2xl p-5 space-y-3">
+                <ul class="list-none pl-6 text-[#4EA975] space-y-2 text-3xl space-y-6">
+                    <li><strong class="text-yellow-300">Hover / arahkan kursor</strong> ke huruf Mandarin untuk melihat
+                        <strong class="text-amber-300">Pinyin</strong>.
+                    </li>
+                    <li>Pilih <strong>salah satu dari 4 arti</strong> yang tersedia. Jawaban <span
+                            class="text-green-300">benar</span> akan menghilangkan kata tersebut dari level.</li>
+                    <li>Setelah menjawab, game <strong>otomatis lanjut</strong> ke soal berikutnya (tanpa tombol next).
+                    </li>
+                    <li>Jika semua kata dalam level selesai, kamu akan <strong class="text-yellow-300">naik ke level
+                            berikutnya</strong> secara otomatis.</li>
+                    <li>Setiap jawaban <span class="text-red-300 font-bold">salah</span> akan mengurangi 1 nyawa. Jika
+                        habis → <span class="font-bold">GAME OVER</span>.</p>
+                    </li>
+                    <li>Skor tertinggi akan tercatat di <strong>Top Scorer</strong> (setelah Game Over atau Menang).
+                        Masukkan namamu dan raih posisi puncak!</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tombol aksi besar menuju game -->
+        <div class="p-6 flex justify-center">
+            <button id="startGameBtn"
+                class="btn-fun bg-[#DBCEB2] hover:bg-[#ADA18A] text-[#D3F2FF] font-bold py-4 px-10 rounded-full text-3xl shadow-2xl flex items-center gap-3 transition-all duration-300 transform hover:scale-105">
+                MULAI BERMAIN
+            </button>
+        </div>
+        <script>
+            const startBtn = document.getElementById("startGameBtn");
+            startBtn.addEventListener("click", () => {
+                window.location.href = "/pages/VocabularyQuiz.html";
+            });
+        </script>
+    </div>
+</body>
+
+</html>
