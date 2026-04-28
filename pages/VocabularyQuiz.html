@@ -5,25 +5,21 @@
     <meta
       name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Vocabulary Quiz | RevoFun</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bobby Jones&family=Comfortaa:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>    
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <style>
       @font-face {
-        font-family: "Bobby Jones";
-        src: url("/fonts/BobbyJones.woff2") format("woff2");
+        font-family: "BobbyJones";
+        src: url("../fonts/BobbyJones.woff2") format("woff2");
         font-weight: normal;
         font-style: normal;
       }
 
       body {
-        font-family: "Bobby Jones", "Noto Sans CJK SC", monospace;
+        font-family: "BobbyJones", "Noto Sans CJK SC", monospace;
         overflow: hidden;
       }
 
@@ -74,7 +70,7 @@
   </head>
 
   <body
-    class="bg-[url('/images/bg-vocabulary-quiz.png')] bg-cover h-screen w-screen overflow-hidden flex items-center justify-center p-0 m-0"
+    class="bg-[url('../images/bg-vocabulary-quiz.png')] bg-cover h-screen w-screen overflow-hidden flex items-center justify-center p-0 m-0"
   >
     <!-- Container utama full layar -->
     <div class="w-screen h-screen flex flex-col overflow-hidden">
@@ -83,23 +79,23 @@
         <div class="flex items-center">
           <div class="flex items-center justify-center">
             <img
-              src="/images/logo-revofun.png"
+              src="../images/logo-revofun.png"
               alt="Logo"
               class="h-22 w-auto object-contain"
             />
           </div>
           <div>
-            <div class="text-2xl text-[#A17359] font-['Bobby Jones']">
+            <div class="text-2xl text-[#A17359] font-['BobbyJones']">
               TOP SCORER
             </div>
             <div
               id="topScorerDisplay"
-              class="text-[#A17359] font-bold text-lg leading-tight font-['Bobby Jones']"
+              class="text-[#A17359] font-bold text-lg leading-tight font-['BobbyJones']"
             ></div>
           </div>
         </div>
         <div
-          class="flex gap-6 text-[white] font-bold px-4 py-2 rounded-full font-['Bobby Jones']"
+          class="flex gap-6 text-[white] font-bold px-4 py-2 rounded-full font-['BobbyJones']"
         >
           <div class="flex items-center gap-1">
             ❤️ <span class="text-[#F8375A] text-2xl">SISA KESEMPATAN : </span
@@ -113,7 +109,7 @@
 
       <!-- KONTEN UTAMA: DUA KOLOM (kiri 75%, kanan 25%) -->
       <div
-        class="flex h-screen overflow-hidden p-5 gap-6 font-['Bobby Jones'] mb-8 items-center justify-center"
+        class="flex h-screen overflow-hidden p-5 gap-6 font-['BobbyJones'] mb-8 items-center justify-center"
       >
         <!-- SISI KIRI: Kartu Soal Mandarin -->
         <div
@@ -653,7 +649,7 @@
         const scoreValue =
           (currentLevel - 1) * 100 +
           (HSK_DATA[currentLevel].length - currentLevelWords.length);
-        modalDiv.innerHTML = `<div class="bg-[#DBCEB2] rounded-2xl p-6 max-w-md w-full text-center shadow-2xl font-['Bobby Jones']">
+        modalDiv.innerHTML = `<div class="bg-[#DBCEB2] rounded-2xl p-6 max-w-md w-full text-center shadow-2xl font-['BobbyJones']">
                 <h2 class="text-4xl text-red font-bold mb-2">${message}</h2>
                 <p class="mb-2 text-xl">Skor akhir: ${scoreValue} poin</p>
                 <p class="text-2xl">Masukkan nama:</p>

@@ -9,14 +9,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
     @font-face {
-      font-family: "Bobby Jones";
-      src: url("/fonts/BobbyJones.woff2") format("woff2");
+      font-family: "BobbyJones";
+      src: url("../fonts/BobbyJones.woff2") format("woff2");
       font-weight: normal;
       font-style: normal;
     }
 
     body {
-      font-family: "Bobby Jones", "Noto Sans CJK SC", monospace;
+      font-family: "BobbyJones", "Noto Sans CJK SC", monospace;
       overflow: hidden;
     }
 
@@ -40,12 +40,12 @@
   </style>
 </head>
 
-<body class="bg-[url('/images/bg-mandarin-catcher.png')] bg-cover min-h-screen flex items-center justify-center p-3">
+<body class="bg-[url('../images/bg-mandarin-catcher.png')] bg-cover min-h-screen flex items-center justify-center p-3">
   <div class="w-full max-w-7xl mx-auto flex flex-col items-center gap-3 relative">
     <!-- Header -->
     <div class="px-6 py-3 flex flex-wrap justify-between items-center w-full gap-2">
       <div class="flex items-center gap-3">
-        <img src="/images/logo-revofun.png" alt="Logo" class="h-22 w-auto object-contain" />
+        <img src="../images/logo-revofun.png" alt="Logo" class="h-22 w-auto object-contain" />
         <div>
           <div class="text-3xl text-[#A17359] font-bold">TOP SCORER</div>
           <div id="topScorerList" class="text-[#A17359] font-bold text-2xl leading-tight">-</div>
@@ -86,7 +86,7 @@
 
   <!-- MODAL GAME OVER (hanya tombol simpan) -->
   <div id="gameOverModal" class="hidden fixed inset-0 bg-[#DBCEB2] z-50 items-center justify-center modal-overlay">
-    <div class="bg-[#DBCEB2] rounded-xl p-6 max-w-md w-full text-center shadow-2xl font-['Bobby Jones'] mx-4">
+    <div class="bg-[#DBCEB2] rounded-xl p-6 max-w-md w-full text-center shadow-2xl font-['BobbyJones'] mx-4">
       <h2 class="text-4xl font-bold text-red-600 mb-2">GAME OVER!</h2>
       <p class="text-xl font-semibold mb-2">Skor Akhir: <span id="finalScoreModal">0</span></p>
       <p class="mb-1 text-2xl">Masukkan nama:</p>
@@ -489,7 +489,7 @@
         const charHeight = 28;
         const totalHeight = chars.length * charHeight;
         let startY = y + (boxHeight - totalHeight) / 2;
-        ctx.font = `bold 22px "Noto Sans CJK SC", "Bobby Jones"`;
+        ctx.font = `bold 22px "Noto Sans CJK SC", "BobbyJones"`;
         ctx.fillStyle = "#FFF8E7";
         ctx.shadowBlur = 2;
         ctx.textAlign = "center";
@@ -537,7 +537,7 @@
         ctx.textAlign = "left";
         for (let i = 0; i < floatingEffects.length; i++) {
           let ef = floatingEffects[i];
-          ctx.font = "bold 18px 'Bobby Jones'";
+          ctx.font = "bold 18px 'BobbyJones'";
           ctx.fillStyle = `rgba(30,20,10,${ef.life / 20})`;
           ctx.fillText(ef.text, ef.x - 25, ef.y - 25 - (20 - ef.life));
           ef.life--;
@@ -549,11 +549,11 @@
       function drawGameOverCanvas() {
         ctx.fillStyle = "rgba(30,15,5,0.88)";
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-        ctx.font = "bold 44px 'Bobby Jones'";
+        ctx.font = "bold 44px 'BobbyJones'";
         ctx.fillStyle = "#FFCF72";
         ctx.textAlign = "center";
         ctx.fillText("PERMAINAN BERHENTI", canvasWidth / 2, canvasHeight / 2 - 30);
-        ctx.font = "33px 'Bobby Jones'";
+        ctx.font = "33px 'BobbyJones'";
         ctx.fillStyle = "#F5BC6E";
         ctx.fillText("Tekan RESTART untuk bermain lagi", canvasWidth / 2, canvasHeight / 2 + 40);
       }

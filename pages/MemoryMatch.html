@@ -10,14 +10,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
         @font-face {
-            font-family: "Bobby Jones";
-            src: url("fonts/BobbyJones.woff2") format("woff2");
+            font-family: "BobbyJones";
+            src: url("../fonts/BobbyJones.woff2") format("woff2");
             font-weight: normal;
             font-style: normal;
         }
 
         body {
-            font-family: "Bobby Jones", "Noto Sans CJK SC", monospace;
+            font-family: "BobbyJones", "Noto Sans CJK SC", monospace;
             overflow: hidden;
         }
 
@@ -39,7 +39,7 @@
     </style>
 </head>
 
-<body class="bg-[url('/images/bg-memory-match.png')] bg-cover min-h-screen flex justify-center items-center p-5 font-['Bobby Jones']">
+<body class="bg-[url('../images/bg-memory-match.png')] bg-cover min-h-screen flex justify-center items-center p-5 font-['BobbyJones']">
     <div class="w-full max-w-7xl mx-auto">
         <!-- Board grid: 2 baris x 6 kolom -->
         <div id="gameBoard" class="grid grid-cols-6 grid-rows-2 gap-2 md:gap-3">
@@ -261,12 +261,12 @@
                     const data = hanziDatabase.find(h => h.char === card.char);
                     if (data) {
                         cardDiv.innerHTML = `
-                        <div class="text-4xl md:text-5xl font-bold text-amber-400 mb-1 md:mb-2 leading-tight">${data.char}</div>
-                        <div class="text-2xl md:text-sm font-['Noto Sans CJK SC'] text-amber-300 mb-1">${data.pinyin}</div>
-                        <div class="text-2xl md:text-xs text-amber-100 max-w-[90%] break-words">${data.arti}</div>
+                        <div class="text-5xl font-bold text-amber-400 mb-1 md:mb-2 leading-tight">${data.char}</div>
+                        <div class="text-xl font-sans text-amber-300 mb-1">${data.pinyin}</div>
+                        <div class="text-2xl text-amber-100 max-w-[90%] break-words">${data.arti}</div>
                     `;
                     } else {
-                        cardDiv.innerHTML = `<div class="text-4xl font-bold text-amber-400">${card.char}</div>`;
+                        cardDiv.innerHTML = `<div class="text-5xl font-bold text-amber-400">${card.char}</div>`;
                     }
                 } else {
                     cardDiv.innerHTML = `<div class="text-5xl md:text-6xl font-bold text-slate-400">?</div>`;

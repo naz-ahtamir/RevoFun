@@ -10,14 +10,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
         @font-face {
-            font-family: "Bobby Jones";
-            src: url("/fonts/BobbyJones.woff2") format("woff2");
+            font-family: "BobbyJones";
+            src: url("../fonts/BobbyJones.woff2") format("woff2");
             font-weight: normal;
             font-style: normal;
         }
 
         body {
-            font-family: "Bobby Jones", "Noto Sans CJK SC", monospace;
+            font-family: "BobbyJones", "Noto Sans CJK SC", monospace;
         }
 
         .btn-fun {
@@ -40,13 +40,13 @@
     </style>
 </head>
 
-<body class="bg-[url('/images/bg-vocabulary-quiz.png')] bg-cover min-h-screen w-full flex justify-center p-4 items-start">
+<body class="bg-[url('../images/bg-vocabulary-quiz.png')] bg-cover min-h-screen w-full flex justify-center p-4 items-start">
 
     <!-- Container utama full layar, fun & menarik -->
     <div class="max-w-7xl w-full min-h-screen rounded-3xl flex flex-col scale-50 origin-center -translate-y-20  backdrop-blur bg-white/50 justify-center items-center">
         <!-- Header dengan animasi sederhana -->
         <div class="text-center py-6 px-4">
-            <h1 class="text-6xl font-black text-[#DBCEB2] tracking-wider drop-shadow-lg font-['Bobby Jones']">
+            <h1 class="text-6xl font-black text-[#DBCEB2] tracking-wider drop-shadow-lg font-['BobbyJones']">
                 ATURAN MAIN
             </h1>
             <p class="text-[#AA9F8D] font-bold mt-1 text-6xl">VOCABULARY QUIZ</p>
@@ -85,7 +85,7 @@
         <script>
             const startBtn = document.getElementById("startGameBtn");
             startBtn.addEventListener("click", () => {
-                window.location.href = "/pages/VocabularyQuiz.html";
+                window.location.href = "../pages/VocabularyQuiz.html";
             });
         </script>
     </div>
