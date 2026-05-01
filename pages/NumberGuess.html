@@ -1,350 +1,177 @@
 <!doctype html>
 <html lang="id">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Number Guess | RevoFun</title>
-  <!-- Tailwind CSS v4 via CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <style>
-    @font-face {
-      font-family: "BobbyJones";
-      src: url("../fonts/BobbyJones.woff2") format("woff2");
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    body {
-      font-family: "BobbyJones", sans-serif;
-    }
-
-    /* animasi lembut untuk feedback */
-    @keyframes fadeGlow {
-      0% {
-        background-color: rgba(255, 215, 0, 0);
-        border-left-color: #fbbf24;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Number Guess | RevoFun</title>
+    <!-- Tailwind CSS v4 via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      @font-face {
+        font-family: "BobbyJones";
+        src: url("../fonts/BobbyJones.woff2") format("woff2");
+        font-weight: normal;
+        font-style: normal;
       }
 
-      100% {
-        background-color: rgba(255, 215, 0, 0.1);
-        border-left-color: #f59e0b;
+      body {
+        font-family: "BobbyJones", sans-serif;
       }
-    }
 
-    .feedback-pulse {
-      animation: fadeGlow 0.5s ease-out;
-    }
+      /* animasi lembut untuk feedback */
+      @keyframes fadeGlow {
+        0% {
+          background-color: rgba(255, 215, 0, 0);
+          border-left-color: #fbbf24;
+        }
 
-    /* kustom scroll */
-    ::-webkit-scrollbar {
-      width: 5px;
-    }
+        100% {
+          background-color: rgba(255, 215, 0, 0.1);
+          border-left-color: #f59e0b;
+        }
+      }
 
-    ::-webkit-scrollbar-track {
-      background: #1e293b;
-      border-radius: 10px;
-    }
+      .feedback-pulse {
+        animation: fadeGlow 0.5s ease-out;
+      }
 
-    ::-webkit-scrollbar-thumb {
-      background: #fbbf24;
-      border-radius: 10px;
-    }
-  </style>
-</head>
+      /* kustom scroll */
+      ::-webkit-scrollbar {
+        width: 5px;
+      }
 
-<body
-  class="bg-[url('../images/bg-number-guess.webp')] bg-cover font-sans antialiased flex items-center justify-center w-full h-full p-4">
-  <div class="w-full max-w-11xl mx-auto my-auto font-['BobbyJones']">
-    <div id="gameStatusBadge" class="text-3xl px-3 py-1.5 rounded-full text-[#FD3E62]"></div>
-    <!-- Panel Utama -->
-    <div class="p-5 transition-all font-['BobbyJones']">
-      <!-- Pesan dinamis -->
-      <div id="messageArea"
-        class="min-h-[80px] p-3 mb-4 text-[#ADA18A] font-bold text-3xl flex items-center text-center justify-center gap-2 flex-wrap">
-        <span id="dynamicMessage">Ketik Angka dalam Hanzi<br />untuk menebak angka rahasia.</span>
-      </div>
+      ::-webkit-scrollbar-track {
+        background: #1e293b;
+        border-radius: 10px;
+      }
 
-      <!-- Input Hanzi utama -->
-      <div class="flex flex-col gap-3 items-center">
-        <input type="text" id="chineseNumberInput" autocomplete="off" placeholder="" title="Enter Chinese numerals from 1 to 100"
-          class="w-[700px] h-[300px] bg-[#FFF9ED]/69 rounded-2xl px-5 py-2 text-[#0A090E] text-8xl font-bold placeholder:text-slate-500 focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all text-center" />
-        <button id="guessBtn"
-          class="w-full max-w-sm bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white text-5xl font-bold px-6 py-3 rounded-2xl transition-all shadow-lg shadow-amber-900/30 flex items-center justify-center gap-2">
-          Tebak
-        </button>
-      </div>
+      ::-webkit-scrollbar-thumb {
+        background: #fbbf24;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
 
-      <!-- Tombol bantuan cepat (contoh Hanzi) -->
-      <p class="text-2xl text-[#ADA18A] mt-2 ml-2 text-center mt-17">
-        Tombol bantuan cepat (contoh Hanzi)
-      </p>
-      <div class="grid grid-cols-4 gap-6 pt-5 text-3xl text-white ml-44 mr-44">
-        <button data-example="十五" class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition">
-          十五 (15)
-        </button>
-        <button data-example="三十三" class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition">
-          三十三 (33)
-        </button>
-        <button data-example="五十六" class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition">
-          五十六 (56)
-        </button>
-        <button data-example="八十二" class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition">
-          八十二 (82)
-        </button>
-        <button data-example="七" class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition">
-          七 (7)
-        </button>
-        <button data-example="四十四" class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition">
-          四十四 (44)
-        </button>
-        <button data-example="九十九" class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition">
-          九十九 (99)
-        </button>
-        <button data-example="一百" class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition">
-          一百 (100)
-        </button>
+  <body
+    class="bg-[url('../images/bg-number-guess.webp')] bg-cover font-sans antialiased flex items-center justify-center w-full h-full p-4"
+  >
+    <div class="w-full max-w-11xl mx-auto my-auto font-['BobbyJones']">
+      <div
+        id="gameStatusBadge"
+        class="text-3xl px-3 py-1.5 rounded-full text-[#FD3E62]"
+      ></div>
+      <!-- Panel Utama -->
+      <div class="p-5 transition-all font-['BobbyJones']">
+        <!-- Pesan dinamis -->
+        <div
+          id="messageArea"
+          class="min-h-[80px] p-3 mb-4 text-[#ADA18A] font-bold text-3xl flex items-center text-center justify-center gap-2 flex-wrap"
+        >
+          <span id="dynamicMessage"
+            >Ketik Angka dalam Hanzi<br />untuk menebak angka rahasia.</span
+          >
+        </div>
+
+        <!-- Input Hanzi utama -->
+        <div class="flex flex-col gap-3 items-center">
+          <input
+            type="text"
+            id="chineseNumberInput"
+            autocomplete="off"
+            placeholder=""
+            title="Enter Chinese numerals from 1 to 100"
+            class="w-[700px] h-[300px] bg-[#FFF9ED]/69 rounded-2xl px-5 py-2 text-[#0A090E] text-8xl font-bold placeholder:text-slate-500 focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all text-center"
+          />
+          <button
+            id="guessBtn"
+            class="w-full max-w-sm bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white text-5xl font-bold px-6 py-3 rounded-2xl transition-all shadow-lg shadow-amber-900/30 flex items-center justify-center gap-2"
+          >
+            Tebak
+          </button>
+        </div>
+
+        <!-- Tombol bantuan cepat (contoh Hanzi) -->
+        <p class="text-2xl text-[#ADA18A] mt-2 ml-2 text-center mt-17">
+          Tombol bantuan cepat (contoh Hanzi)
+        </p>
+        <div
+          class="grid grid-cols-4 gap-6 pt-5 text-3xl text-white ml-44 mr-44"
+        >
+          <button
+            data-example="十五"
+            class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
+          >
+            十五 (15)
+          </button>
+          <button
+            data-example="三十三"
+            class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
+          >
+            三十三 (33)
+          </button>
+          <button
+            data-example="五十六"
+            class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
+          >
+            五十六 (56)
+          </button>
+          <button
+            data-example="八十二"
+            class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
+          >
+            八十二 (82)
+          </button>
+          <button
+            data-example="七"
+            class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
+          >
+            七 (7)
+          </button>
+          <button
+            data-example="四十四"
+            class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
+          >
+            四十四 (44)
+          </button>
+          <button
+            data-example="九十九"
+            class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
+          >
+            九十九 (99)
+          </button>
+          <button
+            data-example="一百"
+            class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
+          >
+            一百 (100)
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <button id="resetBtn" type="button" title="Reset permainan" aria-label="Reset permainan"
-    class="fixed bottom-5 right-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10">
-    <i class="fas fa-sync"></i>
-  </button>
-  <button id="homeButton" type="button" title="Kembali ke beranda" aria-label="Kembali ke beranda"
-    onclick="window.location.href = '../'"
-    class="fixed bottom-5 left-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10">
-    <i class="fas fa-home"></i>
-  </button>
-
-  <script>
-    // ======================= KONVERSI HANZI -> ANGKA (1-100) =======================
-    function chineseToNumber(chineseStr) {
-      if (!chineseStr || typeof chineseStr !== "string") return NaN;
-      let cleaned = chineseStr.trim().replace(/\s/g, "");
-      if (cleaned === "") return NaN;
-
-      const digitMap = {
-        零: 0,
-        一: 1,
-        二: 2,
-        三: 3,
-        四: 4,
-        五: 5,
-        六: 6,
-        七: 7,
-        八: 8,
-        九: 9,
-        十: 10,
-      };
-
-      if (cleaned === "一百") return 100;
-      if (cleaned === "十") return 10;
-
-      const matchTen = cleaned.match(
-        /^([零一二三四五六七八九]?)十([一二三四五六七八九]?)$/,
-      );
-      if (matchTen) {
-        let left = matchTen[1];
-        let right = matchTen[2];
-        let tens = 0;
-        if (left === "") {
-          tens = 1;
-        } else {
-          tens = digitMap[left];
-          if (tens === undefined) return NaN;
-        }
-        let ones = 0;
-        if (right !== "") {
-          ones = digitMap[right];
-          if (ones === undefined) return NaN;
-        }
-        return tens * 10 + ones;
-      }
-
-      if (cleaned.length === 1) {
-        const val = digitMap[cleaned];
-        if (val !== undefined && val >= 1 && val <= 9) return val;
-        return NaN;
-      }
-      return NaN;
-    }
-
-    function numberToChinese(num) {
-      if (num === 100) return "一百";
-      if (num === 10) return "十";
-      const digitChars = [
-        "",
-        "一",
-        "二",
-        "三",
-        "四",
-        "五",
-        "六",
-        "七",
-        "八",
-        "九",
-      ];
-      if (num >= 1 && num <= 9) return digitChars[num];
-      if (num >= 11 && num <= 99) {
-        const tens = Math.floor(num / 10);
-        const ones = num % 10;
-        let result = "";
-        if (tens === 1) result = "十";
-        else result = digitChars[tens] + "十";
-        if (ones !== 0) result += digitChars[ones];
-        return result;
-      }
-      return String(num);
-    }
-
-    // ======================= STATE PERMAINAN =======================
-    let secretNumber = Math.floor(Math.random() * 100) + 1;
-    let attemptsLeft = 8;
-    let gameActive = true;
-
-    // DOM elements
-    const chineseInput = document.getElementById("chineseNumberInput");
-    const guessBtn = document.getElementById("guessBtn");
-    const resetBtn = document.getElementById("resetBtn");
-    const dynamicMessageSpan = document.getElementById("dynamicMessage");
-    const gameStatusBadge = document.getElementById("gameStatusBadge");
-
-    // Update pesan & badge (menampilkan sisa kesempatan)
-    function updateGameUI() {
-      if (gameActive) {
-        gameStatusBadge.innerHTML = `❤️ Sisa kesempatan: ${attemptsLeft}`;
-      }
-    }
-
-    // Akhiri permainan
-    function endGame(won) {
-      gameActive = false;
-      guessBtn.disabled = true;
-      if (won) {
-        gameStatusBadge.innerHTML = "MENANG!";
-        gameStatusBadge.classList.add(
-          "text-[#ADA18A]",
-          "font-bold",
-          "text-center",
-          "text-6xl",
-        );
-        dynamicMessageSpan.innerHTML = `Benar! Angka rahasianya adalah ${secretNumber} (${numberToChinese(secretNumber)}).<br>Kamu hebat! Tekan "Game Baru" untuk bermain lagi.`;
-      } else {
-        const chineseAnswer = numberToChinese(secretNumber);
-        dynamicMessageSpan.innerHTML = `💀 GAME OVER 💀<br>Angka rahasia adalah ${secretNumber} (${chineseAnswer}). Tekan "Game Baru" untuk bermain lagi.`;
-        gameStatusBadge.innerHTML = "❌ KALAH · Coba lagi ❌";
-        gameStatusBadge.classList.add("font-bold", "text-center", "text-6xl");
-      }
-    }
-
-    // Reset permainan
-    function resetGame() {
-      secretNumber = Math.floor(Math.random() * 100) + 1;
-      attemptsLeft = 8;
-      gameActive = true;
-      guessBtn.disabled = false;
-      dynamicMessageSpan.innerHTML =
-        "GAME BARU!<br>Masukkan angka dalam Hanzi 1-100.";
-      gameStatusBadge.innerHTML = `❤️ Sisa kesempatan: ${attemptsLeft}`;
-      gameStatusBadge.classList.remove(
-        "bg-green-800/60",
-        "bg-red-800/60",
-        "text-yellow-200",
-        "text-red-200",
-      );
-      gameStatusBadge.classList.add("text-[#ADA18A]");
-      chineseInput.value = "";
-      chineseInput.focus();
-    }
-
-    // Proses tebakan
-    function handleChineseGuess() {
-      if (!gameActive) {
-        dynamicMessageSpan.innerHTML =
-          "⚠️ Permainan sudah berakhir.<br>Klik 'Game Baru' untuk bermain lagi.";
-        return;
-      }
-
-      const rawInput = chineseInput.value.trim();
-      if (rawInput === "") {
-        dynamicMessageSpan.innerHTML =
-          "📝 Silakan tulis angka dalam Hanzi<br>(contoh: 二十五 , 六十八 , 一百)";
-        return;
-      }
-
-      const numericValue = chineseToNumber(rawInput);
-      if (isNaN(numericValue) || numericValue < 1 || numericValue > 100) {
-        dynamicMessageSpan.innerHTML = `❌ "${rawInput}" bukan angka Mandarin 1-100.<br>Pelajari format: 十五, 五十六, 三十三, 一百, 七, dst.`;
-        return;
-      }
-
-      attemptsLeft--;
-      updateGameUI();
-
-      if (numericValue === secretNumber) {
-        dynamicMessageSpan.innerHTML = `JITU! ${rawInput} = ${secretNumber} ！ Selamat!`;
-        endGame(true);
-        return;
-      }
-
-      if (attemptsLeft === 0) {
-        dynamicMessageSpan.innerHTML = `😭 Tebakan salah. Angka sebenarnya adalah ${secretNumber} (${numberToChinese(secretNumber)}).<br>Kesempatan habis.`;
-        endGame(false);
-        return;
-      }
-
-      let petunjuk = "";
-      if (numericValue < secretNumber) {
-        petunjuk = `Terlalu KECIL!<br>Coba angka lain.`;
-      } else {
-        petunjuk = `Terlalu BESAR!<br>Coba angka lain.`;
-      }
-      dynamicMessageSpan.innerHTML = `${petunjuk}`;
-      chineseInput.value = "";
-      chineseInput.focus();
-
-      const msgDiv = document.getElementById("messageArea");
-      msgDiv.classList.add("feedback-pulse");
-      setTimeout(() => msgDiv.classList.remove("feedback-pulse"), 500);
-    }
-
-    // Tombol contoh cepat
-    function fillExample(exampleChinese) {
-      if (!gameActive) {
-        dynamicMessageSpan.innerHTML =
-          "Game sudah berakhir. Tekan 'Game Baru' dulu ya.";
-        return;
-      }
-      chineseInput.value = exampleChinese;
-      chineseInput.focus();
-      dynamicMessageSpan.innerHTML = `Klik "Tebak"<br>untuk menjawab.`;
-    }
-
-    // Event listeners
-    guessBtn.addEventListener("click", handleChineseGuess);
-    resetBtn.addEventListener("click", resetGame);
-
-    document.querySelectorAll(".example-chip").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        const val = btn.getAttribute("data-example");
-        if (val) fillExample(val);
-      });
-    });
-
-    chineseInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        if (!guessBtn.disabled) handleChineseGuess();
-      }
-    });
-
-    // Inisialisasi
-    updateGameUI();
-    chineseInput.focus();
-  </script>
-</body>
-
+    <button
+      id="resetBtn"
+      type="button"
+      title="Reset permainan"
+      aria-label="Reset permainan"
+      class="fixed bottom-5 right-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10"
+    >
+      <i class="fas fa-sync"></i>
+    </button>
+    <button
+      id="homeButton"
+      type="button"
+      title="Kembali ke beranda"
+      aria-label="Kembali ke beranda"
+      onclick="window.location.href = '../'"
+      class="fixed bottom-5 left-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10"
+    >
+      <i class="fas fa-home"></i>
+    </button>
+    <script src="../pages/NumberGuess.js" defer></script>
+  </body>
 </html>

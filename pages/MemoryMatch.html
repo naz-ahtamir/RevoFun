@@ -1,327 +1,77 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Memory Match | RevoFun</title>
     <!-- Tailwind CSS + Font Awesome -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
     <style>
-        @font-face {
-            font-family: "BobbyJones";
-            src: url("../fonts/BobbyJones.woff2") format("woff2");
-            font-weight: normal;
-            font-style: normal;
+      @font-face {
+        font-family: "BobbyJones";
+        src: url("../fonts/BobbyJones.woff2") format("woff2");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      body {
+        font-family: "BobbyJones", "Noto Sans CJK SC", monospace;
+        overflow: hidden;
+      }
+
+      @keyframes scalePop {
+        0% {
+          transform: scale(0.95);
+          opacity: 0.8;
         }
 
-        body {
-            font-family: "BobbyJones", "Noto Sans CJK SC", monospace;
-            overflow: hidden;
+        100% {
+          transform: scale(1);
+          opacity: 1;
         }
+      }
 
-        @keyframes scalePop {
-            0% {
-                transform: scale(0.95);
-                opacity: 0.8;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .card-flip-animation {
-            animation: scalePop 0.2s ease-out;
-        }
+      .card-flip-animation {
+        animation: scalePop 0.2s ease-out;
+      }
     </style>
-</head>
+  </head>
 
-<body class="bg-[url('../images/bg-memory-match.webp')] bg-cover min-h-screen flex justify-center items-center p-5 font-['BobbyJones']">
+  <body
+    class="bg-[url('../images/bg-memory-match.webp')] bg-cover min-h-screen flex justify-center items-center p-5 font-['BobbyJones']"
+  >
     <div class="w-full max-w-7xl mx-auto">
-        <!-- Board grid: 2 baris x 6 kolom -->
-        <div id="gameBoard" class="grid grid-cols-6 grid-rows-2 gap-2 md:gap-3">
-            <!-- Kartu akan diisi JavaScript -->
-        </div>
+      <!-- Board grid: 2 baris x 6 kolom -->
+      <div id="gameBoard" class="grid grid-cols-6 grid-rows-2 gap-2 md:gap-3">
+        <!-- Kartu akan diisi JavaScript -->
+      </div>
     </div>
 
     <!-- Tombol Reset (kanan bawah) -->
-    <button id="resetBtn" type="button" aria-label="Reset permainan" title="Reset permainan"
-        class="fixed bottom-5 right-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10">
-        <i class="fas fa-sync-alt"></i>
+    <button
+      id="resetBtn"
+      type="button"
+      aria-label="Reset permainan"
+      title="Reset permainan"
+      class="fixed bottom-5 right-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10"
+    >
+      <i class="fas fa-sync-alt"></i>
     </button>
 
     <!-- Tombol Kembali (kiri bawah) -->
-    <button type="button" onclick="window.location.href='../'" aria-label="Kembali ke beranda" title="Kembali ke beranda"
-        class="fixed bottom-5 left-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10">
-        <i class="fas fa-home"></i>
+    <button
+      type="button"
+      onclick="window.location.href = '../'"
+      aria-label="Kembali ke beranda"
+      title="Kembali ke beranda"
+      class="fixed bottom-5 left-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10"
+    >
+      <i class="fas fa-home"></i>
     </button>
-
-    <script>
-        // ==================== DATABASE KOSAKATA HSK (UNIK) ====================
-        const hanziDatabase = [
-            { char: "蕴", pinyin: "yùn", arti: "mengandung" },
-            { char: "髓", pinyin: "suǐ", arti: "sumsum" },
-            { char: "矗", pinyin: "chù", arti: "menjulang" },
-            { char: "懿", pinyin: "yì", arti: "mulia" },
-            { char: "壑", pinyin: "hè", arti: "jurang" },
-            { char: "臻", pinyin: "zhēn", arti: "mencapai" },
-            { char: "穹", pinyin: "qióng", arti: "langit" },
-            { char: "羲", pinyin: "xī", arti: "dewa" },
-            { char: "夔", pinyin: "kuí", arti: "makhluk mitos" },
-            { char: "黻", pinyin: "fú", arti: "ornamen" },
-            { char: "鼐", pinyin: "nài", arti: "kuali" },
-            { char: "龘", pinyin: "dá", arti: "naga" },
-            { char: "爨", pinyin: "cuàn", arti: "tungku" },
-            { char: "灥", pinyin: "xún", arti: "mata air" },
-            { char: "馫", pinyin: "xīn", arti: "wangi" },
-            { char: "靐", pinyin: "bìng", arti: "guntur" },
-            { char: "飝", pinyin: "fēi", arti: "terbang" },
-            { char: "刕", pinyin: "lí", arti: "tebasan" },
-            { char: "叕", pinyin: "zhuó", arti: "bersambung" },
-            { char: "燚", pinyin: "yì", arti: "api" },
-            { char: "茻", pinyin: "mǎng", arti: "rumput" },
-            { char: "朤", pinyin: "lǎng", arti: "terang" },
-            { char: "䨻", pinyin: "bèng", arti: "gemuruh" },
-            { char: "䲜", pinyin: "yè", arti: "ikan" },
-            { char: "鱻", pinyin: "xiān", arti: "ikan segar" },
-            { char: "猋", pinyin: "biāo", arti: "lari" },
-            { char: "麤", pinyin: "cū", arti: "kasar" },
-            { char: "龖", pinyin: "dá", arti: "naga" },
-            { char: "纛", pinyin: "dào", arti: "panji" },
-            { char: "鼙", pinyin: "pí", arti: "genderang" },
-            { char: "鼗", pinyin: "táo", arti: "rebana" },
-            { char: "磬", pinyin: "qìng", arti: "batu" },
-            { char: "鼬", pinyin: "yòu", arti: "cerpelai" },
-            { char: "貔", pinyin: "pí", arti: "mitos" },
-            { char: "貅", pinyin: "xiū", arti: "mitos" },
-            { char: "魑", pinyin: "chī", arti: "setan" },
-            { char: "魅", pinyin: "mèi", arti: "hantu" },
-            { char: "魍", pinyin: "wǎng", arti: "hantu air" },
-            { char: "魉", pinyin: "liǎng", arti: "hantu" },
-            { char: "鬻", pinyin: "yù", arti: "jual" },
-            { char: "嚚", pinyin: "yín", arti: "jahat" },
-            { char: "囿", pinyin: "yòu", arti: "kebun" },
-            { char: "圉", pinyin: "yǔ", arti: "kandang" },
-            { char: "翱翔", pinyin: "áoxiáng", arti: "terbang" },
-            { char: "跋扈", pinyin: "báhù", arti: "sewenang" },
-            { char: "斑斓", pinyin: "bānlán", arti: "warni" },
-            { char: "磅礴", pinyin: "pángbó", arti: "besar" },
-            { char: "悖论", pinyin: "bèilùn", arti: "paradoks" },
-            { char: "鄙夷", pinyin: "bǐyí", arti: "remeh" },
-            { char: "编纂", pinyin: "biānzuǎn", arti: "susun" },
-            { char: "鞭策", pinyin: "biāncè", arti: "dorong" },
-            { char: "变迁", pinyin: "biànqiān", arti: "ubah" },
-            { char: "辨别", pinyin: "biànbié", arti: "bedakan" },
-            { char: "彪悍", pinyin: "biāohàn", arti: "gagah" },
-            { char: "别致", pinyin: "biézhì", arti: "unik" },
-            { char: "濒临", pinyin: "bīnlín", arti: "menjelang" },
-            { char: "摒弃", pinyin: "bìngqì", arti: "buang" },
-            { char: "波澜", pinyin: "bōlán", arti: "gelombang" },
-            { char: "博学", pinyin: "bóxué", arti: "terpelajar" },
-            { char: "部署", pinyin: "bùshǔ", arti: "tempat" },
-            { char: "仓促", pinyin: "cāngcù", arti: "tergesa" },
-            { char: "沧桑", pinyin: "cāngsāng", arti: "perubahan" },
-            { char: "操纵", pinyin: "cāozòng", arti: "manipulasi" },
-            { char: "嘈杂", pinyin: "cáozá", arti: "ribut" },
-            { char: "诧异", pinyin: "chàyì", arti: "heran" },
-            { char: "搀扶", pinyin: "chānfú", arti: "dukung" },
-            { char: "缠绵", pinyin: "chánmián", arti: "panjang" },
-            { char: "婵娟", pinyin: "chánjuān", arti: "bulan" },
-            { char: "颤抖", pinyin: "chàndǒu", arti: "getar" },
-            { char: "猖獗", pinyin: "chāngjué", arti: "merajalela" },
-            { char: "长眠", pinyin: "chángmián", arti: "tidur" },
-            { char: "徜徉", pinyin: "chángyáng", arti: "jalan" },
-            { char: "绰约", pinyin: "chuòyuē", arti: "anggun" },
-            { char: "慈悲", pinyin: "cíbēi", arti: "welas" },
-            { char: "璀璨", pinyin: "cuǐcàn", arti: "gemerlap" },
-            { char: "蹉跎", pinyin: "cuōtuó", arti: "sia-sia" },
-            { char: "搭载", pinyin: "dāzài", arti: "muat" },
-            { char: "怠慢", pinyin: "dàimàn", arti: "lalai" },
-            { char: "荡漾", pinyin: "dàngyàng", arti: "goyang" },
-            { char: "祷告", pinyin: "dǎogào", arti: "doa" },
-            { char: "嫡系", pinyin: "díxì", arti: "keturunan" },
-            { char: "砥砺", pinyin: "dǐlì", arti: "asah" },
-            { char: "抵御", pinyin: "dǐyù", arti: "tahan" },
-            { char: "颠簸", pinyin: "diānbǒ", arti: "goyah" },
-            { char: "颠覆", pinyin: "diānfù", arti: "jungkir" },
-            { char: "雕琢", pinyin: "diāozhuó", arti: "pahat" },
-            { char: "跌宕", pinyin: "diēdàng", arti: "irama" },
-            { char: "叮嘱", pinyin: "dīngzhǔ", arti: "pesan" },
-            { char: "笃定", pinyin: "dǔdìng", arti: "pasti" },
-            { char: "杜绝", pinyin: "dùjué", arti: "henti" },
-            { char: "端倪", pinyin: "duānní", arti: "awal" },
-            { char: "兑现", pinyin: "duìxiàn", arti: "penuhi" },
-            { char: "遁逃", pinyin: "dùntáo", arti: "lari" },
-            { char: "哆嗦", pinyin: "duōsuo", arti: "gemetar" },
-            { char: "婀娜", pinyin: "ēnuó", arti: "anggun" },
-            { char: "讹诈", pinyin: "ézhà", arti: "peras" },
-            { char: "遏制", pinyin: "èzhì", arti: "tahan" },
-            { char: "恩怨", pinyin: "ēnyuàn", arti: "dendam" },
-            { char: "尔虞我诈", pinyin: "ěryúwǒzhà", arti: "tipu" },
-            { char: "发轫", pinyin: "fārèn", arti: "mulai" },
-            { char: "繁衍", pinyin: "fányǎn", arti: "biak" },
-            { char: "彷徨", pinyin: "pánghuáng", arti: "bimbang" },
-            { char: "菲薄", pinyin: "fěibó", arti: "rendah" },
-            { char: "诽谤", pinyin: "fěibàng", arti: "fitnah" },
-            { char: "斐然", pinyin: "fěirán", arti: "cemerlang" },
-            { char: "分寸", pinyin: "fēncùn", arti: "batas" },
-            { char: "愤懑", pinyin: "fènmèn", arti: "marah" },
-            { char: "风韵", pinyin: "fēngyùn", arti: "daya tarik" },
-            { char: "敷衍", pinyin: "fūyǎn", arti: "setengah" },
-            { char: "扶摇", pinyin: "fúyáo", arti: "naik" },
-            { char: "拂晓", pinyin: "fúxiǎo", arti: "subuh" },
-            { char: "辐射", pinyin: "fúshè", arti: "radiasi" },
-            { char: "福祉", pinyin: "fúzhǐ", arti: "bahagia" },
-            { char: "斧正", pinyin: "fǔzhèng", arti: "koreksi" },
-            { char: "腐败", pinyin: "fǔbài", arti: "korupsi" },
-            { char: "讣告", pinyin: "fùgào", arti: "obituari" },
-            { char: "赋予", pinyin: "fùyǔ", arti: "beri" },
-            { char: "尴尬", pinyin: "gāngà", arti: "canggung" },
-            { char: "甘霖", pinyin: "gānlín", arti: "hujan" },
-            { char: "感慨", pinyin: "gǎnkǎi", arti: "terharu" },
-            { char: "刚毅", pinyin: "gāngyì", arti: "tegar" },
-            { char: "浩瀚", pinyin: "hàohàn", arti: "luas" },
-            { char: "和谐", pinyin: "héxié", arti: "harmonis" },
-            { char: "鸿鹄", pinyin: "hónghú", arti: "angsa" },
-            { char: "迥异", pinyin: "jiǒngyì", arti: "berbeda" },
-            { char: "韬略", pinyin: "tāolüè", arti: "strategi" },
-            { char: "巍峨", pinyin: "wēi'é", arti: "tinggi" },
-            { char: "蜿蜒", pinyin: "wānyán", arti: "kelok" },
-            { char: "徇私", pinyin: "xùnsī", arti: "korupsi" },
-            { char: "氤氲", pinyin: "yīnyūn", arti: "kabut" },
-            { char: "恣意", pinyin: "zìyì", arti: "sewenang" },
-            { char: "憧憬", pinyin: "chōngjǐng", arti: "bayang" },
-            { char: "惆怅", pinyin: "chóuchàng", arti: "sedih" },
-            { char: "踌躇", pinyin: "chóuchú", arti: "ragu" },
-            { char: "倜傥", pinyin: "tìtǎng", arti: "menawan" },
-            { char: "龃龉", pinyin: "jǔyǔ", arti: "selisih" },
-            { char: "魑魅魍魉", pinyin: "chīmèiwǎngliǎng", arti: "hantu" }
-        ];
-
-        // ==================== GAME STATE ====================
-        let currentCards = [];
-        let flippedCards = [];
-        let lockBoard = false;
-        let moves = 0;
-        let matches = 0;
-
-        const board = document.getElementById('gameBoard');
-        const resetBtn = document.getElementById('resetBtn');
-
-        // Fungsi acak 6 pasang
-        function selectRandomPairs() {
-            const shuffled = [...hanziDatabase];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-            const selected = shuffled.slice(0, 6);
-            let deck = [];
-            selected.forEach(item => {
-                deck.push(item.char);
-                deck.push(item.char);
-            });
-            for (let i = deck.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [deck[i], deck[j]] = [deck[j], deck[i]];
-            }
-            return deck.map((char, idx) => ({ id: idx, char: char, flipped: false, matched: false }));
-        }
-
-        function initGame() {
-            currentCards = selectRandomPairs();
-            flippedCards = [];
-            lockBoard = false;
-            moves = 0;
-            matches = 0;
-            renderBoard();
-        }
-
-        function renderBoard() {
-            board.innerHTML = '';
-            currentCards.forEach((card, idx) => {
-                const cardDiv = document.createElement('div');
-                // Base classes Tailwind untuk kartu
-                let baseClasses = "bg-gradient-to-br from-slate-800 to-slate-900 border-2 border-amber-400 rounded-lg flex flex-col justify-center items-center text-center cursor-pointer transition-all duration-200 shadow-lg aspect-[3/4] p-3";
-
-                if (card.matched) {
-                    baseClasses += " bg-gradient-to-br from-red-800 to-red-900 scale-95 opacity-80 cursor-default shadow-[0_0_6px_#fbbf24]";
-                } else if (card.flipped) {
-                    baseClasses += " bg-gradient-to-br from-red-800 to-red-900 scale-95";
-                } else {
-                    baseClasses += " hover:scale-[0.98]";
-                }
-
-                cardDiv.className = baseClasses;
-
-                if (card.flipped || card.matched) {
-                    const data = hanziDatabase.find(h => h.char === card.char);
-                    if (data) {
-                        cardDiv.innerHTML = `
-                        <div class="text-5xl font-bold text-amber-400 mb-1 md:mb-2 leading-tight">${data.char}</div>
-                        <div class="text-xl font-sans text-amber-300 mb-1">${data.pinyin}</div>
-                        <div class="text-2xl text-amber-100 max-w-[90%] break-words">${data.arti}</div>
-                    `;
-                    } else {
-                        cardDiv.innerHTML = `<div class="text-5xl font-bold text-amber-400">${card.char}</div>`;
-                    }
-                } else {
-                    cardDiv.innerHTML = `<div class="text-5xl md:text-6xl font-bold text-slate-400">?</div>`;
-                }
-
-                cardDiv.addEventListener('click', () => onCardClick(idx));
-                board.appendChild(cardDiv);
-            });
-        }
-
-        function onCardClick(idx) {
-            if (lockBoard) return;
-            const card = currentCards[idx];
-            if (card.matched || card.flipped) return;
-
-            card.flipped = true;
-            flippedCards.push(idx);
-            renderBoard();
-
-            if (flippedCards.length === 2) {
-                moves++;
-                lockBoard = true;
-                const idxA = flippedCards[0];
-                const idxB = flippedCards[1];
-                const cardA = currentCards[idxA];
-                const cardB = currentCards[idxB];
-
-                if (cardA.char === cardB.char) {
-                    cardA.matched = true;
-                    cardB.matched = true;
-                    cardA.flipped = false;
-                    cardB.flipped = false;
-                    matches++;
-                    flippedCards = [];
-                    lockBoard = false;
-                    renderBoard();
-                    if (matches === 6) {
-                        setTimeout(() => alert("✨ Selesai! ✨ Tekan tombol reset untuk bermain lagi."), 50);
-                    }
-                } else {
-                    setTimeout(() => {
-                        currentCards[idxA].flipped = false;
-                        currentCards[idxB].flipped = false;
-                        flippedCards = [];
-                        lockBoard = false;
-                        renderBoard();
-                    }, 650);
-                }
-            }
-            if (flippedCards.length === 2 && matches === 6) lockBoard = false;
-        }
-
-        resetBtn.addEventListener('click', () => initGame());
-        initGame();
-    </script>
-</body>
-
+    <script src="../pages/MemoryMatch.js" defer></script>
+  </body>
 </html>
