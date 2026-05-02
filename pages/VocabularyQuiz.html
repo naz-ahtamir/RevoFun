@@ -12,7 +12,7 @@
     <style>
       @font-face {
         font-family: "BobbyJones";
-        src: url("../fonts/BobbyJones.woff2") format("woff2");
+        src: url("/fonts/BobbyJones.woff2") format("woff2");
         font-weight: normal;
         font-style: normal;
       }
@@ -69,7 +69,7 @@
   </head>
 
   <body
-    class="bg-[url('../images/bg-vocabulary-quiz.webp')] bg-cover h-screen w-screen overflow-hidden flex items-center justify-center p-0 m-0"
+    class="bg-[url('/images/bg-vocabulary-quiz.webp')] bg-cover h-screen w-screen overflow-hidden flex items-center justify-center p-0 m-0"
   >
     <!-- Container utama full layar -->
     <div class="w-screen h-screen flex flex-col overflow-hidden">
@@ -78,7 +78,7 @@
         <div class="flex items-center">
           <div class="flex items-center justify-center">
             <img
-              src="../images/logo-revofun.webp"
+              src="/images/logo-revofun.webp"
               alt="Logo"
               class="h-22 w-auto object-contain"
             />
@@ -150,7 +150,7 @@
       <button
         type="button"
         id="homeButton"
-        onclick="window.location.href = '../'"
+        onclick="window.location.href = '/'"
         aria-label="Kembali ke beranda"
         title="Kembali ke beranda"
         class="fixed bottom-5 left-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10"
@@ -167,6 +167,6 @@
         <i class="fas fa-sync"></i>
       </button>
     </div>
-    <script src="../pages/VocabularyQuiz.js" defer></script>
+    <script src="/pages/VocabularyQuiz.js" defer></script>
   </body>
 </html>

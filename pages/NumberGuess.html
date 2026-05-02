@@ -13,7 +13,7 @@
     <style>
       @font-face {
         font-family: "BobbyJones";
-        src: url("../fonts/BobbyJones.woff2") format("woff2");
+        src: url("/fonts/BobbyJones.woff2") format("woff2");
         font-weight: normal;
         font-style: normal;
       }
@@ -57,7 +57,7 @@
   </head>
 
   <body
-    class="bg-[url('../images/bg-number-guess.webp')] bg-cover font-sans antialiased flex items-center justify-center w-full h-full p-4"
+    class="bg-[url('/images/bg-number-guess.webp')] bg-cover font-sans antialiased flex items-center justify-center w-full h-full p-4"
   >
     <div class="w-full max-w-11xl mx-auto my-auto font-['BobbyJones']">
       <div
@@ -167,11 +167,11 @@
       type="button"
       title="Kembali ke beranda"
       aria-label="Kembali ke beranda"
-      onclick="window.location.href = '../'"
+      onclick="window.location.href = '/'"
       class="fixed bottom-5 left-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10"
     >
       <i class="fas fa-home"></i>
     </button>
-    <script src="../pages/NumberGuess.js" defer></script>
+    <script src="/pages/NumberGuess.js" defer></script>
   </body>
 </html>

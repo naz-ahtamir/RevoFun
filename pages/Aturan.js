@@ -2,7 +2,7 @@
 const games = {
   mc: {
     title: "Cara Main – Mandarin Catcher",
-    bgImage: "../images/bg-mandarin-catcher.webp",
+    bgImage: "/images/bg-mandarin-catcher.webp",
     bgOpacity: "bg-white/69",
     gameName: "MANDARIN CATCHER",
     rules: [
@@ -10,11 +10,11 @@ const games = {
       "Tangkapan benar dapat +10 poin dan soal baru; <strong class='text-[#AA9F8D]'>salah mengurangi kesempatan.</strong>",
       "Kesempatan hanya 3. <strong class='text-red-300'>Habis = game over</strong>, simpan skor dengan nama di Top Scorer.",
     ],
-    gamePage: "../pages/MandarinCatcher.html",
+    gamePage: "/pages/MandarinCatcher.html",
   },
   mm: {
     title: "Cara Main – Memory Match",
-    bgImage: "../images/bg-memory-match.webp",
+    bgImage: "/images/bg-memory-match.webp",
     bgOpacity: "bg-white/69",
     gameName: "MEMORY MATCH",
     rules: [
@@ -24,11 +24,11 @@ const games = {
       "Kalau salah, kartu akan tutup lagi setelah 0,65 detik. <strong class='text-red-300'>Ulangi terus!</strong>",
       "Cocokkan semua 6 pasang untuk MENANG",
     ],
-    gamePage: "../pages/MemoryMatch.html",
+    gamePage: "/pages/MemoryMatch.html",
   },
   ng: {
     title: "Cara Main – Number Guess",
-    bgImage: "../images/bg-number-guess.webp",
+    bgImage: "/images/bg-number-guess.webp",
     bgOpacity: "bg-white/50",
     gameName: "NUMBER GUESS",
     rules: [
@@ -39,11 +39,11 @@ const games = {
       "Setiap tebakan menghabiskan satu dari delapan kesempatan.",
       "Kamu menang jika tebakan tepat, dan kalah jika semua kesempatan habis.",
     ],
-    gamePage: "../pages/NumberGuess.html",
+    gamePage: "/pages/NumberGuess.html",
   },
   vq: {
     title: "Cara Main – Vocabulary Quiz",
-    bgImage: "../images/bg-vocabulary-quiz.webp",
+    bgImage: "/images/bg-vocabulary-quiz.webp",
     bgOpacity: "bg-white/50",
     gameName: "VOCABULARY QUIZ",
     rules: [
@@ -54,7 +54,7 @@ const games = {
       "Setiap jawaban <span class='text-red-300 font-bold'>salah</span> akan mengurangi 1 nyawa. Jika habis → <span class='font-bold'>GAME OVER</span>.",
       "Skor tertinggi akan tercatat di <strong>Top Scorer</strong> (setelah Game Over atau Menang). Masukkan namamu dan raih posisi puncak!",
     ],
-    gamePage: "../pages/VocabularyQuiz.html",
+    gamePage: "/pages/VocabularyQuiz.html",
   },
 };
 
