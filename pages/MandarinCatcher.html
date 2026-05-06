@@ -39,92 +39,137 @@
         -webkit-backdrop-filter: blur(8px);
         backdrop-filter: blur(8px);
       }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        #gameCanvas {
+          max-width: 90vw;
+          max-height: 50vh;
+        }
+        .text-3xl {
+          font-size: 1.5rem !important;
+        }
+        .text-2xl {
+          font-size: 1.25rem !important;
+        }
+        .fixed {
+          width: 48px !important;
+          height: 48px !important;
+          font-size: 1.5rem !important;
+        }
+      }
     </style>
   </head>
 
   <body
     class="bg-[url('/images/bg-mandarin-catcher.webp')] bg-cover min-h-screen flex items-center justify-center p-3"
   >
-    <div
-      class="w-full max-w-7xl mx-auto flex flex-col items-center gap-3 relative"
-    >
-      <!-- Header -->
+    <!-- Landscape wrapper untuk non-index pages -->
+    <div class="landscape-wrapper w-full h-full flex items-center justify-center">
       <div
-        class="px-6 py-3 flex flex-wrap justify-between items-center w-full gap-2"
+        class="w-full max-w-7xl mx-auto flex flex-col items-center gap-3 relative"
       >
-        <div class="flex items-center gap-3">
-          <img
-            src="/images/logo-revofun.webp"
-            alt="Logo"
-            class="h-22 w-auto object-contain"
-          />
-          <div>
-            <div class="text-3xl text-[#A17359] font-bold">TOP SCORER</div>
+        <!-- Header -->
+        <div
+          class="px-6 py-3 flex flex-wrap justify-between items-center w-full gap-2"
+        >
+          <div class="flex items-center gap-3">
+            <img
+              src="/images/logo-revofun.webp"
+              alt="Logo"
+              class="h-22 w-auto object-contain"
+            />
+            <div>
+              <div class="text-3xl text-[#A17359] font-bold">TOP SCORER</div>
+              <div
+                id="topScorerList"
+                class="text-[#A17359] font-bold text-2xl leading-tight"
+              >
+                -
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl font-bold text-[#A17359] tracking-widest">
+              TANGKAP KOTAK HANZI YANG SESUAI
+            </div>
             <div
-              id="topScorerList"
-              class="text-[#A17359] font-bold text-2xl leading-tight"
+              id="questionText"
+              class="text-2xl font-bold text-[#F8375A] tracking-widest"
             >
-              -
+              Memuat...
+            </div>
+          </div>
+          <div class="flex items-center gap-4 whitespace-nowrap">
+            <div class="flex items-center gap-1">
+              <i class="fas fa-star text-yellow-500"></i>
+              <span class="text-[#F8375A] text-2xl font-bold">SKOR : </span>
+              <span id="scoreValue" class="text-[#F8375A] text-2xl font-bold"
+                >0</span
+              >
+            </div>
+            <div class="flex items-center gap-1">
+              <i class="fas fa-heart text-red-500"></i>
+              <span class="text-[#F8375A] text-2xl font-bold"
+                >SISA KESEMPATAN :
+              </span>
+              <span id="livesValue" class="text-[#F8375A] text-2xl font-bold"
+                >3</span
+              >
             </div>
           </div>
         </div>
-        <div class="text-center">
-          <div class="text-2xl font-bold text-[#A17359] tracking-widest">
-            TANGKAP KOTAK HANZI YANG SESUAI
-          </div>
-          <div
-            id="questionText"
-            class="text-2xl font-bold text-[#F8375A] tracking-widest"
+
+        <canvas
+          id="gameCanvas"
+          width="1100"
+          height="580"
+          class="shadow-2xl bg-white w-full max-w-[1100px] h-auto max-h-[68vh]"
+        ></canvas>
+
+        <div class="w-full flex justify-between items-center mt-2 px-2">
+          <button
+            id="backHomeBtn"
+            type="button"
+            title="Back to Home"
+            onclick="window.location.href = '/'"
+            class="fixed bottom-5 left-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10"
           >
-            Memuat...
-          </div>
+            <i class="fas fa-home"></i>
+          </button>
+          <button
+            id="resetBottomBtn"
+            title="Reset Game"
+            class="fixed bottom-5 right-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10"
+          >
+            <i class="fas fa-sync"></i>
+          </button>
         </div>
-        <div class="flex items-center gap-4 whitespace-nowrap">
-          <div class="flex items-center gap-1">
-            <i class="fas fa-star text-yellow-500"></i>
-            <span class="text-[#F8375A] text-2xl font-bold">SKOR : </span>
-            <span id="scoreValue" class="text-[#F8375A] text-2xl font-bold"
-              >0</span
-            >
-          </div>
-          <div class="flex items-center gap-1">
-            <i class="fas fa-heart text-red-500"></i>
-            <span class="text-[#F8375A] text-2xl font-bold"
-              >SISA KESEMPATAN :
-            </span>
-            <span id="livesValue" class="text-[#F8375A] text-2xl font-bold"
-              >3</span
-            >
-          </div>
-        </div>
-      </div>
-
-      <canvas
-        id="gameCanvas"
-        width="1100"
-        height="580"
-        class="shadow-2xl bg-white w-full max-w-[1100px] h-auto max-h-[68vh]"
-      ></canvas>
-
-      <div class="w-full flex justify-between items-center mt-2 px-2">
-        <button
-          id="backHomeBtn"
-          type="button"
-          title="Back to Home"
-          onclick="window.location.href = '/'"
-          class="fixed bottom-5 left-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10"
-        >
-          <i class="fas fa-home"></i>
-        </button>
-        <button
-          id="resetBottomBtn"
-          title="Reset Game"
-          class="fixed bottom-5 right-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10"
-        >
-          <i class="fas fa-sync"></i>
-        </button>
       </div>
     </div>
+    <style>
+      /* Landscape mode untuk non-index pages */
+      @media screen and (orientation: portrait) {
+        body {
+          overflow: hidden;
+        }
+        .landscape-wrapper {
+          transform: rotate(90deg);
+          transform-origin: center center;
+          width: 100vh;
+          height: 100vw;
+          position: fixed;
+          top: 0;
+          left: 0;
+          margin: 0;
+          overflow: hidden;
+        }
+        .landscape-wrapper > * {
+          transform: rotate(-90deg);
+          transform-origin: center center;
+        }
+      }
+    </style>
 
     <!-- MODAL GAME OVER (hanya tombol simpan) -->
     <div

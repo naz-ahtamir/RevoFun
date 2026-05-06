@@ -65,83 +65,101 @@
       .mt-8.text-sm.text-gray-500.italic {
         display: none;
       }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .h-22 {
+          height: 80px;
+        }
+        #hanziText {
+          font-size: 3rem !important;
+        }
+        .fixed {
+          width: 48px !important;
+          height: 48px !important;
+          font-size: 1.5rem !important;
+        }
+      }
     </style>
   </head>
 
   <body
     class="bg-[url('/images/bg-vocabulary-quiz.webp')] bg-cover h-screen w-screen overflow-hidden flex items-center justify-center p-0 m-0"
   >
-    <!-- Container utama full layar -->
-    <div class="w-screen h-screen flex flex-col overflow-hidden">
-      <!-- HEADER : Top Scorer + Info -->
-      <div class="px-6 py-3 flex flex-wrap justify-between items-center">
-        <div class="flex items-center">
-          <div class="flex items-center justify-center">
-            <img
-              src="/images/logo-revofun.webp"
-              alt="Logo"
-              class="h-22 w-auto object-contain"
-            />
-          </div>
-          <div>
-            <div class="text-2xl text-[#A17359] font-['BobbyJones']">
-              TOP SCORER
+    <!-- Landscape wrapper untuk non-index pages -->
+    <div class="landscape-wrapper w-full h-full flex items-center justify-center">
+      <!-- Container utama full layar -->
+      <div class="w-screen h-screen flex flex-col overflow-hidden">
+        <!-- HEADER : Top Scorer + Info -->
+        <div class="px-6 py-3 flex flex-wrap justify-between items-center">
+          <div class="flex items-center">
+            <div class="flex items-center justify-center">
+              <img
+                src="/images/logo-revofun.webp"
+                alt="Logo"
+                class="h-22 w-auto object-contain"
+              />
             </div>
-            <div
-              id="topScorerDisplay"
-              class="text-[#A17359] font-bold text-lg leading-tight font-['BobbyJones']"
-            ></div>
-          </div>
-        </div>
-        <div
-          class="flex gap-6 text-[white] font-bold px-4 py-2 rounded-full font-['BobbyJones']"
-        >
-          <div class="flex items-center gap-1">
-            ❤️ <span class="text-[#F8375A] text-2xl">SISA KESEMPATAN : </span
-            ><span id="livesCount" class="text-[#F8375A] text-2xl">3</span>
-          </div>
-          <div class="flex items-center gap-1 text-[#A17359] text-2xl">
-            LEVEL : HSK <span id="currentLevelNum">1</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- KONTEN UTAMA: DUA KOLOM (kiri 75%, kanan 25%) -->
-      <div
-        class="flex h-screen overflow-hidden p-5 gap-6 font-['BobbyJones'] mb-8 items-center justify-center"
-      >
-        <!-- SISI KIRI: Kartu Soal Mandarin -->
-        <div
-          class="w-[70%] h-[70%] bg-white flex flex-col items-center justify-center p-6 rounded-3xl"
-        >
-          <div class="text-center w-full">
-            <div class="group relative inline-block">
-              <div
-                class="text-[clamp(3rem,12vw,8rem)] font-black text-gray-800 mb-3 leading-tight cursor-pointer break-words"
-                id="hanziText"
-              >
-                加载中...
+            <div>
+              <div class="text-2xl text-[#A17359] font-['BobbyJones']">
+                TOP SCORER
               </div>
               <div
-                class="absolute left-1/2 -translate-x-1/2 mt-2 text-xl md:text-2xl font-medium text-amber-700 bg-amber-50 px-5 py-2 rounded-full shadow-inner whitespace-nowrap hidden group-hover:block font-sans"
-                id="pinyinText"
-              >
-                -
-              </div>
+                id="topScorerDisplay"
+                class="text-[#A17359] font-bold text-lg leading-tight font-['BobbyJones']"
+              ></div>
             </div>
-            <div class="mt-6 flex justify-center">
-              <span
-                class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-5 py-1 rounded-full text-sm font-bold shadow"
-                id="badgeLevel"
-                >HSK ?</span
-              >
+          </div>
+          <div
+            class="flex gap-6 text-[white] font-bold px-4 py-2 rounded-full font-['BobbyJones']"
+          >
+            <div class="flex items-center gap-1">
+              ❤️ <span class="text-[#F8375A] text-2xl">SISA KESEMPATAN : </span
+              ><span id="livesCount" class="text-[#F8375A] text-2xl">3</span>
+            </div>
+            <div class="flex items-center gap-1 text-[#A17359] text-2xl">
+              LEVEL : HSK <span id="currentLevelNum">1</span>
             </div>
           </div>
         </div>
 
-        <!-- SISI KANAN: 4 Pilihan Jawaban -->
-        <div class="w-1/4 flex flex-col gap-4 justify-center">
-          <div id="optionsContainer" class="grid grid-cols-1 gap-3"></div>
+        <!-- KONTEN UTAMA: DUA KOLOM (kiri 75%, kanan 25%) -->
+        <div
+          class="flex h-screen overflow-hidden p-5 gap-6 font-['BobbyJones'] mb-8 items-center justify-center"
+        >
+          <!-- SISI KIRI: Kartu Soal Mandarin -->
+          <div
+            class="w-[70%] h-[70%] bg-white flex flex-col items-center justify-center p-6 rounded-3xl"
+          >
+            <div class="text-center w-full">
+              <div class="group relative inline-block">
+                <div
+                  class="text-[clamp(3rem,12vw,8rem)] font-black text-gray-800 mb-3 leading-tight cursor-pointer break-words"
+                  id="hanziText"
+                >
+                  加载中...
+                </div>
+                <div
+                  class="absolute left-1/2 -translate-x-1/2 mt-2 text-xl md:text-2xl font-medium text-amber-700 bg-amber-50 px-5 py-2 rounded-full shadow-inner whitespace-nowrap hidden group-hover:block font-sans"
+                  id="pinyinText"
+                >
+                  -
+                </div>
+              </div>
+              <div class="mt-6 flex justify-center">
+                <span
+                  class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-5 py-1 rounded-full text-sm font-bold shadow"
+                  id="badgeLevel"
+                  >HSK ?</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- SISI KANAN: 4 Pilihan Jawaban -->
+          <div class="w-1/4 flex flex-col gap-4 justify-center">
+            <div id="optionsContainer" class="grid grid-cols-1 gap-3"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -167,6 +185,29 @@
         <i class="fas fa-sync"></i>
       </button>
     </div>
+    <style>
+      /* Landscape mode untuk non-index pages */
+      @media screen and (orientation: portrait) {
+        body {
+          overflow: hidden;
+        }
+        .landscape-wrapper {
+          transform: rotate(90deg);
+          transform-origin: center center;
+          width: 100vh;
+          height: 100vw;
+          position: fixed;
+          top: 0;
+          left: 0;
+          margin: 0;
+          overflow: hidden;
+        }
+        .landscape-wrapper > * {
+          transform: rotate(-90deg);
+          transform-origin: center center;
+        }
+      }
+    </style>
     <script src="/pages/VocabularyQuiz.js" defer></script>
   </body>
 </html>

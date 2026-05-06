@@ -38,41 +38,86 @@
       .rule-card:hover {
         transform: translateY(-5px);
       }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .text-7xl {
+          font-size: 3rem !important;
+        }
+        .text-3xl {
+          font-size: 1.5rem !important;
+        }
+        .py-4 {
+          padding-top: 1rem !important;
+          padding-bottom: 1rem !important;
+        }
+        .fixed {
+          width: 48px !important;
+          height: 48px !important;
+          font-size: 1.5rem !important;
+        }
+      }
     </style>
   </head>
   <body
     id="bodyBg"
     class="bg-cover min-h-screen w-full flex justify-center p-4 items-start"
   >
-    <div
-      class="max-w-7xl w-full min-h-screen rounded-3xl flex flex-col scale-50 origin-center -translate-y-20 backdrop-blur justify-center items-center"
-      id="mainContainer"
-    >
-      <div class="text-center py-6 px-4">
-        <h1
-          class="text-7xl font-black text-[#AA9F8D] tracking-wider drop-shadow-lg font-['BobbyJones']"
-        >
-          Aturan MAIN
-        </h1>
-        <p id="gameName" class="text-[#AA9F8D] font-bold mt-1 text-7xl"></p>
-      </div>
-      <div class="p-3 space-y-5 text-center">
-        <div class="rounded-2xl p-5 space-y-3">
-          <ul
-            id="rulesList"
-            class="list-none pl-6 text-[#4EA975] space-y-2 text-3xl"
-          ></ul>
+    <!-- Landscape wrapper untuk non-index pages -->
+    <div class="landscape-wrapper w-full h-full flex items-center justify-center">
+      <div
+        class="max-w-7xl w-full min-h-screen rounded-3xl flex flex-col scale-50 origin-center -translate-y-20 backdrop-blur justify-center items-center"
+        id="mainContainer"
+      >
+        <div class="text-center py-6 px-4">
+          <h1
+            class="text-7xl font-black text-[#AA9F8D] tracking-wider drop-shadow-lg font-['BobbyJones']"
+          >
+            Aturan MAIN
+          </h1>
+          <p id="gameName" class="text-[#AA9F8D] font-bold mt-1 text-7xl"></p>
+        </div>
+        <div class="p-3 space-y-5 text-center">
+          <div class="rounded-2xl p-5 space-y-3">
+            <ul
+              id="rulesList"
+              class="list-none pl-6 text-[#4EA975] space-y-2 text-3xl"
+            ></ul>
+          </div>
+        </div>
+        <div class="p-6 flex justify-center">
+          <button
+            id="startGameBtn"
+            class="btn-fun bg-[#AA9F8D] hover:bg-[#ADA18A] text-[#D3F2FF] font-bold py-4 px-10 rounded-full text-3xl shadow-2xl flex items-center gap-3 transition-all duration-300 transform hover:scale-105"
+          >
+            MULAI BERMAIN
+          </button>
         </div>
       </div>
-      <div class="p-6 flex justify-center">
-        <button
-          id="startGameBtn"
-          class="btn-fun bg-[#AA9F8D] hover:bg-[#ADA18A] text-[#D3F2FF] font-bold py-4 px-10 rounded-full text-3xl shadow-2xl flex items-center gap-3 transition-all duration-300 transform hover:scale-105"
-        >
-          MULAI BERMAIN
-        </button>
-      </div>
     </div>
+    <style>
+      /* Landscape mode untuk non-index pages */
+      @media screen and (orientation: portrait) {
+        body {
+          overflow: hidden;
+        }
+        .landscape-wrapper {
+          transform: rotate(90deg);
+          transform-origin: center center;
+          width: 100vh;
+          height: 100vw;
+          position: fixed;
+          top: 0;
+          left: 0;
+          margin: 0;
+          overflow: hidden;
+        }
+        .landscape-wrapper > * {
+          transform: rotate(-90deg);
+          transform-origin: center center;
+        }
+      }
+    </style>
     <script src="Aturan.js"></script>
   </body>
 </html>

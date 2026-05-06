@@ -38,16 +38,31 @@
       .card-flip-animation {
         animation: scalePop 0.2s ease-out;
       }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        #gameBoard {
+          gap: 1;
+        }
+        .fixed {
+          width: 48px !important;
+          height: 48px !important;
+          font-size: 1.5rem !important;
+        }
+      }
     </style>
   </head>
 
   <body
     class="bg-[url('/images/bg-memory-match.webp')] bg-cover min-h-screen flex justify-center items-center p-5 font-['BobbyJones']"
   >
-    <div class="w-full max-w-7xl mx-auto">
-      <!-- Board grid: 2 baris x 6 kolom -->
-      <div id="gameBoard" class="grid grid-cols-6 grid-rows-2 gap-2 md:gap-3">
-        <!-- Kartu akan diisi JavaScript -->
+    <!-- Landscape wrapper untuk non-index pages -->
+    <div class="landscape-wrapper w-full h-full flex items-center justify-center">
+      <div class="w-full max-w-7xl mx-auto">
+        <!-- Board grid: 2 baris x 6 kolom -->
+        <div id="gameBoard" class="grid grid-cols-6 grid-rows-2 gap-2 md:gap-3">
+          <!-- Kartu akan diisi JavaScript -->
+        </div>
       </div>
     </div>
 
@@ -72,6 +87,29 @@
     >
       <i class="fas fa-home"></i>
     </button>
+    <style>
+      /* Landscape mode untuk non-index pages */
+      @media screen and (orientation: portrait) {
+        body {
+          overflow: hidden;
+        }
+        .landscape-wrapper {
+          transform: rotate(90deg);
+          transform-origin: center center;
+          width: 100vh;
+          height: 100vw;
+          position: fixed;
+          top: 0;
+          left: 0;
+          margin: 0;
+          overflow: hidden;
+        }
+        .landscape-wrapper > * {
+          transform: rotate(-90deg);
+          transform-origin: center center;
+        }
+      }
+    </style>
     <script src="/pages/MemoryMatch.js" defer></script>
   </body>
 </html>

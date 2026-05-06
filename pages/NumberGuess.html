@@ -53,102 +53,126 @@
         background: #fbbf24;
         border-radius: 10px;
       }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        #chineseNumberInput {
+          height: 200px;
+          font-size: 4rem;
+        }
+        #guessBtn {
+          font-size: 3rem;
+          padding: 1rem 2rem;
+        }
+        .example-chip {
+          font-size: 2rem;
+          padding: 0.5rem 1rem;
+        }
+        .fixed {
+          width: 48px !important;
+          height: 48px !important;
+          font-size: 1.5rem !important;
+        }
+      }
     </style>
   </head>
 
   <body
     class="bg-[url('/images/bg-number-guess.webp')] bg-cover font-sans antialiased flex items-center justify-center w-full h-full p-4"
   >
-    <div class="w-full max-w-11xl mx-auto my-auto font-['BobbyJones']">
-      <div
-        id="gameStatusBadge"
-        class="text-3xl px-3 py-1.5 rounded-full text-[#FD3E62]"
-      ></div>
-      <!-- Panel Utama -->
-      <div class="p-5 transition-all font-['BobbyJones']">
-        <!-- Pesan dinamis -->
+    <!-- Landscape wrapper untuk non-index pages -->
+    <div class="landscape-wrapper w-full h-full flex items-center justify-center">
+      <div class="w-full max-w-11xl mx-auto my-auto font-['BobbyJones']">
         <div
-          id="messageArea"
-          class="min-h-[80px] p-3 mb-4 text-[#ADA18A] font-bold text-3xl flex items-center text-center justify-center gap-2 flex-wrap"
-        >
-          <span id="dynamicMessage"
-            >Ketik Angka dalam Hanzi<br />untuk menebak angka rahasia.</span
+          id="gameStatusBadge"
+          class="text-3xl px-3 py-1.5 rounded-full text-[#FD3E62]"
+        ></div>
+        <!-- Panel Utama -->
+        <div class="p-5 transition-all font-['BobbyJones']">
+          <!-- Pesan dinamis -->
+          <div
+            id="messageArea"
+            class="min-h-[80px] p-3 mb-4 text-[#ADA18A] font-bold text-3xl flex items-center text-center justify-center gap-2 flex-wrap"
           >
-        </div>
+            <span id="dynamicMessage"
+              >Ketik Angka dalam Hanzi<br />untuk menebak angka rahasia.</span
+            >
+          </div>
 
-        <!-- Input Hanzi utama -->
-        <div class="flex flex-col gap-3 items-center">
-          <input
-            type="text"
-            id="chineseNumberInput"
-            autocomplete="off"
-            placeholder=""
-            title="Enter Chinese numerals from 1 to 100"
-            class="w-[700px] h-[300px] bg-[#FFF9ED]/69 rounded-2xl px-5 py-2 text-[#0A090E] text-8xl font-bold placeholder:text-slate-500 focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all text-center"
-          />
-          <button
-            id="guessBtn"
-            class="w-full max-w-sm bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white text-5xl font-bold px-6 py-3 rounded-2xl transition-all shadow-lg shadow-amber-900/30 flex items-center justify-center gap-2"
-          >
-            Tebak
-          </button>
-        </div>
+          <!-- Input Hanzi utama -->
+          <div class="flex flex-col gap-3 items-center">
+            <input
+              type="text"
+              id="chineseNumberInput"
+              autocomplete="off"
+              placeholder=""
+              title="Enter Chinese numerals from 1 to 100"
+              class="w-full max-w-[700px] h-[300px] bg-[#FFF9ED]/69 rounded-2xl px-5 py-2 text-[#0A090E] text-8xl font-bold placeholder:text-slate-500 focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all text-center"
+            />
+            <button
+              id="guessBtn"
+              class="w-full max-w-sm bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white text-5xl font-bold px-6 py-3 rounded-2xl transition-all shadow-lg shadow-amber-900/30 flex items-center justify-center gap-2"
+            >
+              Tebak
+            </button>
+          </div>
 
-        <!-- Tombol bantuan cepat (contoh Hanzi) -->
-        <p class="text-2xl text-[#ADA18A] mt-2 ml-2 text-center mt-17">
-          Tombol bantuan cepat (contoh Hanzi)
-        </p>
-        <div
-          class="grid grid-cols-4 gap-6 pt-5 text-3xl text-white ml-44 mr-44"
-        >
-          <button
-            data-example="十五"
-            class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
+          <!-- Tombol bantuan cepat (contoh Hanzi) -->
+          <p class="text-2xl text-[#ADA18A] mt-2 text-center">
+            Tombol bantuan cepat (contoh Hanzi)
+          </p>
+          <div
+            class="grid grid-cols-4 gap-4 pt-5 text-3xl text-white"
           >
-            十五 (15)
-          </button>
-          <button
-            data-example="三十三"
-            class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
-          >
-            三十三 (33)
-          </button>
-          <button
-            data-example="五十六"
-            class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
-          >
-            五十六 (56)
-          </button>
-          <button
-            data-example="八十二"
-            class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
-          >
-            八十二 (82)
-          </button>
-          <button
-            data-example="七"
-            class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
-          >
-            七 (7)
-          </button>
-          <button
-            data-example="四十四"
-            class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
-          >
-            四十四 (44)
-          </button>
-          <button
-            data-example="九十九"
-            class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
-          >
-            九十九 (99)
-          </button>
-          <button
-            data-example="一百"
-            class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
-          >
-            一百 (100)
-          </button>
+            <button
+              data-example="十五"
+              class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
+            >
+              十五 (15)
+            </button>
+            <button
+              data-example="三十三"
+              class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
+            >
+              三十三 (33)
+            </button>
+            <button
+              data-example="五十六"
+              class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
+            >
+              五十六 (56)
+            </button>
+            <button
+              data-example="八十二"
+              class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
+            >
+              八十二 (82)
+            </button>
+            <button
+              data-example="七"
+              class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
+            >
+              七 (7)
+            </button>
+            <button
+              data-example="四十四"
+              class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
+            >
+              四十四 (44)
+            </button>
+            <button
+              data-example="九十九"
+              class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
+            >
+              九十九 (99)
+            </button>
+            <button
+              data-example="一百"
+              class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
+            >
+              一百 (100)
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -172,6 +196,29 @@
     >
       <i class="fas fa-home"></i>
     </button>
+    <style>
+      /* Landscape mode untuk non-index pages */
+      @media screen and (orientation: portrait) {
+        body {
+          overflow: hidden;
+        }
+        .landscape-wrapper {
+          transform: rotate(90deg);
+          transform-origin: center center;
+          width: 100vh;
+          height: 100vw;
+          position: fixed;
+          top: 0;
+          left: 0;
+          margin: 0;
+          overflow: hidden;
+        }
+        .landscape-wrapper > * {
+          transform: rotate(-90deg);
+          transform-origin: center center;
+        }
+      }
+    </style>
     <script src="/pages/NumberGuess.js" defer></script>
   </body>
 </html>
