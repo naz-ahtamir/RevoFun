@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes"
+    />
+    <title>Aturan Main</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="images/favicon-new.webp" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      /* Font BobbyJones */
+      @font-face {
+        font-family: "BobbyJones";
+        src: url("../fonts/BobbyJones.woff2") format("woff2");
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Tidak ada scroll sama sekali, fullscreen landscape */
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: fixed;
+        top: 0;
+        left: 0;
+      }
+
+      body {
+        font-family: "BobbyJones", "Noto Sans CJK SC", system-ui, monospace;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
+
+      /* Wrapper landscape - selalu center tanpa scroll */
+      .landscape-wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      /* Kartu utama: ukuran responsif, TIDAK PERNAH overflow scroll */
+      .rules-card {
+        width: 77%;
+        max-width: 1300px;
+        margin: 0 auto;
+        backdrop-filter: blur(18px);
+        border-radius: 2.5rem;
+        box-shadow: 0 20px 35px rgba(0, 0, 0, 0.25);
+        transition: all 0.2s;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        /* JANGAN ADA SCROLL VERTIKAL - semua muat dalam 1 layar */
+        max-height: 96vh;
+        overflow: visible;
+      }
+
+      /* Konten dalam kartu - tidak overflow */
+      .card-content {
+        padding: 1rem 1.8rem 1.5rem 1.8rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      /* Typography: lebih kecil agar muat sempurna di desktop */
+      .main-title {
+        font-size: clamp(1.6rem, 5vw, 2.8rem);
+        font-weight: 900;
+        color: #aa9f8d;
+        letter-spacing: 0.05em;
+        text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .game-name {
+        font-size: clamp(0.9rem, 3.8vw, 1.9rem);
+        font-weight: bold;
+        color: #aa9f8d;        
+        margin-bottom: 2rem;
+      }
+
+      .rule-item {
+        font-size: clamp(0.52rem, 1.7vw, 0.9rem);
+        line-height: 1;
+        margin-bottom: 0.55rem;
+        color: #4ea975;
+      }
+
+      /* Desktop spesifik (lebar >= 1024px) teks lebih kecil tapi tetap proporsional */
+      @media (min-width: 1024px) {
+        .rule-item {
+          font-size: clamp(0.65rem, 1.8vw, 1rem);
+          margin-bottom: 0.4rem;
+        }
+        .main-title {
+          font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+        }
+        .game-name {
+          font-size: clamp(0.85rem, 2vw, 1.6rem);
+        }
+        .card-content {
+          padding: 0.8rem 2rem 1rem 2rem;
+        }
+      }
+
+      /* Untuk layar sangat lebar (wide) tetap muat */
+      @media (min-width: 1600px) {
+        .rule-item {
+          font-size: 1.1rem;
+          margin-bottom: 0.5rem;
+        }
+        .card-content {
+          padding: 1.2rem 2.5rem;
+        }
+      }
+
+      /* Tombol lebih ramping */
+      .btn-start {
+        transition: all 0.2s;
+        background-color: #aa9f8d;
+        color: #d3f2ff;
+        font-weight: bold;
+        padding: 0.6rem 1.8rem;
+        border-radius: 9999px;
+        font-size: clamp(0.9rem, 2.5vw, 1.5rem);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        box-shadow: 0 8px 14px rgba(0, 0, 0, 0.2);
+      }
+      .btn-start:hover {
+        transform: scale(1.02);
+        background-color: #ada18a;
+      }
+
+      /* tidak ada bullet point */
+      ul,
+      li {
+        list-style: none !important;
+      }
+
+      /* Portrait mode: otomatis landscape rotation */
+      @media screen and (orientation: portrait) {
+        body,
+        html {
+          overflow: hidden;
+        }
+        .landscape-wrapper {
+          transform: rotate(90deg);
+          transform-origin: center center;
+          width: 100vh;
+          height: 100vw;
+          position: fixed;
+          top: 0;
+          left: 0;
+        }
+        .landscape-wrapper .rules-card {
+          transform: rotate(-90deg);
+          transform-origin: center center;
+          width: 88%;
+          backdrop-filter: blur(20px);
+        }
+        .rule-item {
+          font-size: clamp(0.7rem, 3vw, 1rem);
+        }
+      }
+
+      /* Hilangkan scroll bar yang mungkin muncul karena konten overflow (tidak akan terjadi) */
+      .rules-card::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+  </head>
+  <body id="bodyBg">
+    <div class="landscape-wrapper">
+      <div id="mainCard" class="rules-card"></div>
+    </div>
+    <script src="/pages/GameRules.js" defer></script>
+  </body>
+</html>

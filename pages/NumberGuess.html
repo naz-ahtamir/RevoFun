@@ -2,8 +2,13 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
     <title>Number Guess | RevoFun</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="images/favicon-new.webp" />
     <!-- Tailwind CSS v4 via CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link
@@ -17,208 +22,289 @@
         font-weight: normal;
         font-style: normal;
       }
-
+      * {
+        box-sizing: border-box;
+      }
       body {
         font-family: "BobbyJones", sans-serif;
+        background: url("/images/bg-number-guess.webp") no-repeat center center
+          fixed;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        height: 100vh;
+        width: 100vw;
+        position: fixed;
       }
-
-      /* animasi lembut untuk feedback */
+      /* Animasi feedback */
       @keyframes fadeGlow {
         0% {
           background-color: rgba(255, 215, 0, 0);
           border-left-color: #fbbf24;
         }
-
         100% {
-          background-color: rgba(255, 215, 0, 0.1);
+          background-color: rgba(255, 215, 0, 0.15);
           border-left-color: #f59e0b;
         }
       }
-
       .feedback-pulse {
         animation: fadeGlow 0.5s ease-out;
       }
-
-      /* kustom scroll */
+      /* Scroll kustom */
       ::-webkit-scrollbar {
-        width: 5px;
+        width: 3px;
       }
-
       ::-webkit-scrollbar-track {
         background: #1e293b;
         border-radius: 10px;
       }
-
       ::-webkit-scrollbar-thumb {
         background: #fbbf24;
         border-radius: 10px;
       }
 
-      /* Responsive adjustments */
-      @media (max-width: 768px) {
-        #chineseNumberInput {
-          height: 200px;
-          font-size: 4rem;
-        }
-        #guessBtn {
-          font-size: 3rem;
-          padding: 1rem 2rem;
+      /* Ukuran kartu input FIX: proporsional agar muat dalam 1 layar */
+      .guess-card-input {
+        height: clamp(100px, 28vh, 220px);
+        background-color: #fff9ed;
+        border-radius: 1.5rem;
+        font-size: clamp(2rem, 8vw, 4rem);
+        text-align: center;
+        font-weight: bold;
+        color: #0a090e;
+        transition: all 0.2s;
+      }
+      .guess-btn-main {
+        font-size: clamp(1.2rem, 5vw, 2.2rem);
+        padding: 0.3rem 1rem;
+      }
+      .example-chip {
+        font-size: clamp(0.6rem, 2.8vw, 0.9rem);
+        padding: 0.15rem 0.2rem;
+        white-space: nowrap;
+        max-width: 222px;
+      }
+      .top-scorer-list {
+        font-size: clamp(0.7rem, 3vw, 1rem);
+        line-height: 1.2;
+      }
+      /* Landscape mode di HP: semua muat dalam 1 layar tanpa scroll vertikal */
+      @media (orientation: landscape) and (max-height: 600px) {
+        .guess-card-input {
+          height: 32vh;
+          font-size: clamp(1.8rem, 7vw, 3rem);
         }
         .example-chip {
-          font-size: 2rem;
-          padding: 0.5rem 1rem;
+          font-size: 0.7rem;
+          padding: 0.1rem 0.4rem;
         }
-        .fixed {
-          width: 48px !important;
-          height: 48px !important;
-          font-size: 1.5rem !important;
+        .message-area-custom {
+          min-height: 45px;
+          font-size: 0.85rem;
+          padding: 0.25rem;
         }
+        .game-status-badge-custom {
+          font-size: 0.9rem;
+        }
+        .header-logo {
+          height: 32px;
+        }
+        .top-scorer-title {
+          font-size: 0.8rem;
+        }
+      }
+      @media (orientation: portrait) {
+        /* Tetap paksa landscape dengan rotate */
+        body {
+          overflow: hidden;
+        }
+        .landscape-force {
+          transform: rotate(90deg) translateY(-100%);
+          transform-origin: top left;
+          width: 100vh;
+          height: 100vw;
+          position: absolute;
+          top: 0;
+          left: 0;
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
+        .landscape-force > * {
+          transform: rotate(-90deg);
+          transform-origin: center center;
+        }
+      }
+      /* Tombul lingkaran penuh */
+      .circle-btn {
+        border-radius: 9999px !important;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #3b82f6;
+        transition: all 0.2s;
+      }
+      .circle-btn:hover {
+        background-color: #2563eb;
+        transform: scale(1.05);
+      }
+      @media (max-width: 640px) {
+        .circle-btn {
+          width: 38px;
+          height: 38px;
+          font-size: 1rem;
+        }
+      }
+      /* Hilangkan outline berlebih */
+      input:focus,
+      button:focus {
+        outline: none;
       }
     </style>
   </head>
-
-  <body
-    class="bg-[url('/images/bg-number-guess.webp')] bg-cover font-sans antialiased flex items-center justify-center w-full h-full p-4"
-  >
-    <!-- Landscape wrapper untuk non-index pages -->
-    <div class="landscape-wrapper w-full h-full flex items-center justify-center">
-      <div class="w-full max-w-11xl mx-auto my-auto font-['BobbyJones']">
-        <div
-          id="gameStatusBadge"
-          class="text-3xl px-3 py-1.5 rounded-full text-[#FD3E62]"
-        ></div>
-        <!-- Panel Utama -->
-        <div class="p-5 transition-all font-['BobbyJones']">
-          <!-- Pesan dinamis -->
-          <div
-            id="messageArea"
-            class="min-h-[80px] p-3 mb-4 text-[#ADA18A] font-bold text-3xl flex items-center text-center justify-center gap-2 flex-wrap"
-          >
-            <span id="dynamicMessage"
-              >Ketik Angka dalam Hanzi<br />untuk menebak angka rahasia.</span
-            >
-          </div>
-
-          <!-- Input Hanzi utama -->
-          <div class="flex flex-col gap-3 items-center">
-            <input
-              type="text"
-              id="chineseNumberInput"
-              autocomplete="off"
-              placeholder=""
-              title="Enter Chinese numerals from 1 to 100"
-              class="w-full max-w-[700px] h-[300px] bg-[#FFF9ED]/69 rounded-2xl px-5 py-2 text-[#0A090E] text-8xl font-bold placeholder:text-slate-500 focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all text-center"
+  <body class="antialiased m-0 p-0">
+    <!-- Wrapper landscape paksa -->
+    <div class="landscape-force w-full h-full" id="appContainer">
+      <div
+        class="flex flex-col w-full h-full p-2 md:p-3 font-['BobbyJones'] overflow-y-auto"
+      >
+        <!-- HEADER: logo + top scorer lebih ramping, menggunakan flex row dan ukuran kecil -->
+        <div class="flex flex-row justify-between items-center gap-2 px-1 py-0">
+          <div class="flex items-center gap-2">
+            <img
+              src="/images/logo-revofun.webp"
+              alt="Logo"
+              class="header-logo h-8 md:h-10 w-auto object-contain"
             />
-            <button
-              id="guessBtn"
-              class="w-full max-w-sm bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white text-5xl font-bold px-6 py-3 rounded-2xl transition-all shadow-lg shadow-amber-900/30 flex items-center justify-center gap-2"
-            >
-              Tebak
-            </button>
+            <div>
+              <div
+                class="top-scorer-title text-xs md:text-sm text-[#A17359] font-bold"
+              >
+                TOP SCORER
+              </div>
+              <div
+                id="topScorerList"
+                class="text-[#A17359] font-bold text-[11px] md:text-sm leading-tight top-scorer-list"
+              >
+                —
+              </div>
+            </div>
           </div>
-
-          <!-- Tombol bantuan cepat (contoh Hanzi) -->
-          <p class="text-2xl text-[#ADA18A] mt-2 text-center">
-            Tombol bantuan cepat (contoh Hanzi)
-          </p>
+          <!-- Badge sisa kesempatan -->
           <div
-            class="grid grid-cols-4 gap-4 pt-5 text-3xl text-white"
+            id="gameStatusBadge"
+            class="game-status-badge-custom text-sm md:text-base px-2 py-0.5 rounded-xl text-[#FD3E62] font-bold bg-white/20 backdrop-blur-sm"
           >
-            <button
-              data-example="十五"
-              class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
-            >
-              十五 (15)
-            </button>
-            <button
-              data-example="三十三"
-              class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
-            >
-              三十三 (33)
-            </button>
-            <button
-              data-example="五十六"
-              class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
-            >
-              五十六 (56)
-            </button>
-            <button
-              data-example="八十二"
-              class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
-            >
-              八十二 (82)
-            </button>
-            <button
-              data-example="七"
-              class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
-            >
-              七 (7)
-            </button>
-            <button
-              data-example="四十四"
-              class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
-            >
-              四十四 (44)
-            </button>
-            <button
-              data-example="九十九"
-              class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
-            >
-              九十九 (99)
-            </button>
-            <button
-              data-example="一百"
-              class="example-chip bg-[#F9AF8F] hover:bg-[#f59231] rounded-full py-1.5 transition"
-            >
-              一百 (100)
-            </button>
+            ❤️ Sisa Kesempatan: 8
           </div>
+        </div>
+
+        <!-- AREA PESAN DINAMIS (diperkecil padding) -->
+        <div
+          id="messageArea"
+          class="message-area-custom min-h-[50px] md:min-h-[65px] p-1 my-1 text-[#ADA18A] font-bold text-center flex items-center justify-center flex-wrap gap-1"
+        >
+          <span id="dynamicMessage" class="text-xs md:text-lg font-bold"
+            >Ketik Angka dalam Hanzi<br />untuk menebak angka rahasia.</span
+          >
+        </div>
+
+        <!-- KARTU INPUT UTAMA + TOMBOL TEBAK (ukuran mengecil agar muat) -->
+        <div class="flex flex-col items-center justify-center gap-2 my-1">
+          <input
+            type="text"
+            id="chineseNumberInput"
+            autocomplete="off"
+            placeholder=""
+            class="guess-card-input px-3 py-1 w-[30%] bg-[#FFF9ED]/85 rounded-2xl text-center font-bold placeholder:text-stone-400 focus:border-amber-400 focus:ring-2 focus:ring-amber-400 transition-all"
+          />
+          <button
+            id="guessBtn"
+            class="guess-btn-main w-full max-w-[200px] bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold px-4 py-1 rounded-2xl transition-all shadow-md flex items-center justify-center gap-1"
+          >
+            <span>Tebak</span>
+          </button>
+        </div>
+
+        <!-- Tombol bantuan cepat (contoh Hanzi) lebih kecil dan rapat -->
+        <p class="text-[11px] md:text-sm text-[#ADA18A] mt-1 text-center">
+          Tombol bantuan cepat
+        </p>
+        <div
+          class="grid grid-cols-4 gap-0.5 md:gap-1 pt-1 pb-1 text-white w-[60%] mx-auto"
+        >
+          <button
+            data-example="十五"
+            class="example-chip bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 rounded-xl transition"
+          >
+            十五 (15)
+          </button>
+          <button
+            data-example="三十三"
+            class="example-chip bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 rounded-xl transition"
+          >
+            三十三 (33)
+          </button>
+          <button
+            data-example="五十六"
+            class="example-chip bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 rounded-xl transition"
+          >
+            五十六 (56)
+          </button>
+          <button
+            data-example="八十二"
+            class="example-chip bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 rounded-xl transition"
+          >
+            八十二 (82)
+          </button>
+          <button
+            data-example="七"
+            class="example-chip bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 rounded-xl transition"
+          >
+            七 (7)
+          </button>
+          <button
+            data-example="四十四"
+            class="example-chip bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 rounded-xl transition"
+          >
+            四十四 (44)
+          </button>
+          <button
+            data-example="九十九"
+            class="example-chip bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 rounded-xl transition"
+          >
+            九十九 (99)
+          </button>
+          <button
+            data-example="一百"
+            class="example-chip bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 rounded-xl transition"
+          >
+            一百 (100)
+          </button>
         </div>
       </div>
     </div>
 
+    <!-- Tombol floating Reset (lingkaran) & Home (lingkaran) -->
     <button
       id="resetBtn"
       type="button"
       title="Reset permainan"
-      aria-label="Reset permainan"
-      class="fixed bottom-5 right-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10"
+      class="circle-btn fixed bottom-3 right-3 text-white shadow-lg z-20"
     >
-      <i class="fas fa-sync"></i>
+      <i class="fas fa-sync-alt"></i>
     </button>
     <button
       id="homeButton"
       type="button"
       title="Kembali ke beranda"
-      aria-label="Kembali ke beranda"
       onclick="window.location.href = '/'"
-      class="fixed bottom-5 left-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10"
+      class="circle-btn fixed bottom-3 left-3 text-white shadow-lg z-20"
     >
       <i class="fas fa-home"></i>
     </button>
-    <style>
-      /* Landscape mode untuk non-index pages */
-      @media screen and (orientation: portrait) {
-        body {
-          overflow: hidden;
-        }
-        .landscape-wrapper {
-          transform: rotate(90deg);
-          transform-origin: center center;
-          width: 100vh;
-          height: 100vw;
-          position: fixed;
-          top: 0;
-          left: 0;
-          margin: 0;
-          overflow: hidden;
-        }
-        .landscape-wrapper > * {
-          transform: rotate(-90deg);
-          transform-origin: center center;
-        }
-      }
-    </style>
     <script src="/pages/NumberGuess.js" defer></script>
   </body>
 </html>

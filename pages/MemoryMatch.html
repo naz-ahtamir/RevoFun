@@ -2,9 +2,14 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
     <title>Memory Match | RevoFun</title>
-    <!-- Tailwind CSS + Font Awesome -->
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="images/favicon-new.webp" />
+    <!-- Tailwind + Font Awesome -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link
       rel="stylesheet"
@@ -16,100 +21,308 @@
         src: url("/fonts/BobbyJones.woff2") format("woff2");
         font-weight: normal;
         font-style: normal;
+        font-display: swap;
       }
-
+      * {
+        box-sizing: border-box;
+        user-select: none;
+      }
       body {
-        font-family: "BobbyJones", "Noto Sans CJK SC", monospace;
+        font-family: "BobbyJones", "Segoe UI", monospace;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+        position: fixed;
+      }
+      /* Landscape master wrapper */
+      .game-root {
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        background: url("/images/bg-memory-match.webp") no-repeat center
+          center/cover;
+      }
+      .game-container {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0.5rem 0.75rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        height: 100%;
+        gap: 0.4rem;
+      }
+      /* HEADER lebih ringkas di mobile */
+      .game-header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.3rem 0.8rem;
+        border-radius: 1.5rem;
+        padding: 0.3rem 1rem;
+        margin-bottom: 0.3rem;
+      }
+      /* Logo lebih kecil di mobile */
+      .game-header img {
+        height: 2rem;
+        width: auto;
+      }
+      @media (min-width: 640px) {
+        .game-header img {
+          height: 2.5rem;
+        }
+      }
+      @media (min-width: 768px) {
+        .game-header img {
+          height: 3rem;
+        }
+      }
+      /* Board 2x6 dengan kartu FIX (rasio 3:4) */
+      .memory-board {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-template-rows: repeat(2, auto);
+        gap: 1rem 0.6rem;
+        justify-items: center;
+        align-items: center;
+        flex: 1 1 auto;
+        min-height: 0;
+        max-height: 72vh;
+      }
+      /* KARTU : ukuran absolut TIDAK PERNAH BERUBAH, teks menggunakan line-clamp */
+      .card {
+        width: 100%;
+        aspect-ratio: 3 / 4;
+        border-radius: 0.9rem;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        box-shadow: 0 6px 10px -3px rgba(0, 0, 0, 0.4);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: linear-gradient(145deg, #1e293b, #0f172a);
+        border: 2px solid #fbbf24;
+        overflow: hidden;
+        padding: 0.3rem;
+      }
+      .card-hanzi {
+        font-size: clamp(1.2rem, 5.5vw, 2.6rem);
+        font-weight: 800;
+        color: #fcd34d;
+        line-height: 1.2;
+        word-break: break-word;
+        max-width: 100%;
+      }
+      .card-pinyin {
+        font-size: clamp(0.6rem, 2.8vw, 0.9rem);
+        font-family: monospace;
+        color: #fde68a;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 0.1rem 0.4rem;
+        border-radius: 1rem;
+        margin: 0.1rem 0;
+        display: inline-block;
+      }
+      .card-arti {
+        font-size: clamp(0.65rem, 2.8vw, 0.95rem);
+        color: #fffbeb;
+        font-weight: 500;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 0.15rem 0.3rem;
+        border-radius: 0.75rem;
+        max-width: 94%;
+        word-break: break-word;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
         overflow: hidden;
       }
-
-      @keyframes scalePop {
-        0% {
-          transform: scale(0.95);
-          opacity: 0.8;
+      .card-question {
+        font-size: clamp(1.8rem, 10vw, 3.5rem);
+        font-weight: bold;
+        color: #94a3b8;
+      }
+      .card.matched {
+        background: linear-gradient(145deg, #991b1b, #7f1d1d);
+        border-color: #facc15;
+        opacity: 0.85;
+        transform: scale(0.97);
+        cursor: default;
+      }
+      .card.flipped {
+        background: linear-gradient(145deg, #b91c1c, #991b1b);
+        transform: scale(0.98);
+        border-color: #ffd966;
+      }
+      /* Stat panel lebih kompak */
+      .stats-panel {
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        border-radius: 1.5rem;
+        padding: 0.2rem 0.8rem;
+        display: flex;
+        gap: 1rem;
+        align-items: baseline;
+        font-weight: bold;
+        color: #fef3c7;
+      }
+      .stats-panel span {
+        font-size: 1rem;
+      }
+      .stats-value {
+        color: #ffd966;
+        font-size: 1.2rem;
+        margin-left: 0.2rem;
+      }
+      @media (min-width: 640px) {
+        .stats-panel span {
+          font-size: 1.1rem;
         }
-
-        100% {
-          transform: scale(1);
-          opacity: 1;
+        .stats-value {
+          font-size: 1.3rem;
         }
       }
-
-      .card-flip-animation {
-        animation: scalePop 0.2s ease-out;
+      /* Tombol fixed kecil */
+      .fixed-btn {
+        position: fixed;
+        bottom: 0.8rem;
+        width: 42px;
+        height: 42px;
+        border-radius: 9999px;
+        background-color: #3b82f6;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.3rem;
+        transition: all 0.2s;
+        z-index: 30;
+        cursor: pointer;
       }
-
-      /* Responsive adjustments */
-      @media (max-width: 768px) {
-        #gameBoard {
-          gap: 1;
+      .btn-reset {
+        right: 0.8rem;
+      }
+      .btn-home {
+        left: 0.8rem;
+      }
+      /* Responsive gap board */
+      @media (max-width: 640px) {
+        .memory-board {
+          gap: 0.4rem;
         }
-        .fixed {
-          width: 48px !important;
-          height: 48px !important;
-          font-size: 1.5rem !important;
+        .card {
+          padding: 0.2rem;
+        }
+      }
+      /* Landscape orientation fix */
+      @media (orientation: portrait) {
+        .game-root {
+          transform: rotate(90deg) translateY(-100%);
+          transform-origin: 0 0;
+          width: 100vh;
+          height: 100vw;
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+        .fixed-btn {
+          transform: rotate(-90deg);
+        }
+        body {
+          overflow: hidden;
+        }
+      }
+      /* MODAL GAME OVER (original style) */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+      .modal-card {
+        background: #dbceb2;
+        border-radius: 2rem;
+        padding: 1.2rem;
+        max-width: 90vw;
+        width: 380px;
+        text-align: center;
+        font-family: "BobbyJones", monospace;
+        box-shadow: 0 25px 40px -12px black;
+        border: 2px solid #fbbf24;
+      }
+      .top-scorer-compact {
+        font-size: 0.9rem;
+        background: rgba(0, 0, 0, 0.4);
+        padding: 0.2rem 0.8rem;
+        border-radius: 2rem;
+        color: #ffe6b3;
+        font-weight: bold;
+        white-space: nowrap;
+      }
+      @media (max-width: 480px) {
+        .top-scorer-compact {
+          font-size: 0.7rem;
+          white-space: normal;
+          text-align: center;
         }
       }
     </style>
   </head>
+  <body>
+    <div class="game-root">
+      <div class="game-container">
+        <!-- Header ringkas : Logo + Top Scorer (hanya 1 terbaik) + Skor & Moves -->
+        <div class="game-header">
+          <div class="flex items-center gap-2">
+            <img
+              src="/images/logo-revofun.webp"
+              alt="RevoFun"
+              class="h-22 w-auto object-contain"
+            />
+            <div>
+              <div class="text-xl text-[#A17359] font-bold">TOP SCORER</div>
+              <div
+                id="topScorerCompact"
+                class="text-[#A17359] font-bold text-xl leading-tight"
+              >
+                -
+              </div>
+            </div>
+          </div>
 
-  <body
-    class="bg-[url('/images/bg-memory-match.webp')] bg-cover min-h-screen flex justify-center items-center p-5 font-['BobbyJones']"
-  >
-    <!-- Landscape wrapper untuk non-index pages -->
-    <div class="landscape-wrapper w-full h-full flex items-center justify-center">
-      <div class="w-full max-w-7xl mx-auto">
-        <!-- Board grid: 2 baris x 6 kolom -->
-        <div id="gameBoard" class="grid grid-cols-6 grid-rows-2 gap-2 md:gap-3">
-          <!-- Kartu akan diisi JavaScript -->
+          <div class="flex items-center gap-2 sm:gap-3">
+            <div class="stats-panel">
+              <div>⭐ <span id="currentScore" class="stats-value">0</span></div>
+              <div>🖱️ <span id="currentMoves" class="stats-value">0</span></div>
+            </div>
+          </div>
         </div>
+        <!-- Board 2x6 dengan kartu fix -->
+        <div id="gameBoard" class="memory-board"></div>
       </div>
     </div>
-
-    <!-- Tombol Reset (kanan bawah) -->
-    <button
-      id="resetBtn"
-      type="button"
-      aria-label="Reset permainan"
-      title="Reset permainan"
-      class="fixed bottom-5 right-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10"
-    >
+    <button id="resetBtn" class="fixed-btn btn-reset">
       <i class="fas fa-sync-alt"></i>
     </button>
-
-    <!-- Tombol Kembali (kiri bawah) -->
-    <button
-      type="button"
-      onclick="window.location.href = '/'"
-      aria-label="Kembali ke beranda"
-      title="Kembali ke beranda"
-      class="fixed bottom-5 left-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10"
-    >
+    <button onclick="window.location.href = '/'" class="fixed-btn btn-home">
       <i class="fas fa-home"></i>
     </button>
-    <style>
-      /* Landscape mode untuk non-index pages */
-      @media screen and (orientation: portrait) {
-        body {
-          overflow: hidden;
-        }
-        .landscape-wrapper {
-          transform: rotate(90deg);
-          transform-origin: center center;
-          width: 100vh;
-          height: 100vw;
-          position: fixed;
-          top: 0;
-          left: 0;
-          margin: 0;
-          overflow: hidden;
-        }
-        .landscape-wrapper > * {
-          transform: rotate(-90deg);
-          transform-origin: center center;
-        }
-      }
-    </style>
     <script src="/pages/MemoryMatch.js" defer></script>
   </body>
 </html>

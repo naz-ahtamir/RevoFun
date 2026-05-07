@@ -1,271 +1,300 @@
-// ==================== DATABASE KOSAKATA HSK (UNIK) ====================
-const hanziDatabase = [
-  { char: "蕴", pinyin: "yùn", arti: "mengandung" },
-  { char: "髓", pinyin: "suǐ", arti: "sumsum" },
-  { char: "矗", pinyin: "chù", arti: "menjulang" },
-  { char: "懿", pinyin: "yì", arti: "mulia" },
-  { char: "壑", pinyin: "hè", arti: "jurang" },
-  { char: "臻", pinyin: "zhēn", arti: "mencapai" },
-  { char: "穹", pinyin: "qióng", arti: "langit" },
-  { char: "羲", pinyin: "xī", arti: "dewa" },
-  { char: "夔", pinyin: "kuí", arti: "makhluk mitos" },
-  { char: "黻", pinyin: "fú", arti: "ornamen" },
-  { char: "鼐", pinyin: "nài", arti: "kuali" },
-  { char: "龘", pinyin: "dá", arti: "naga" },
-  { char: "爨", pinyin: "cuàn", arti: "tungku" },
-  { char: "灥", pinyin: "xún", arti: "mata air" },
-  { char: "馫", pinyin: "xīn", arti: "wangi" },
-  { char: "靐", pinyin: "bìng", arti: "guntur" },
-  { char: "飝", pinyin: "fēi", arti: "terbang" },
-  { char: "刕", pinyin: "lí", arti: "tebasan" },
-  { char: "叕", pinyin: "zhuó", arti: "bersambung" },
-  { char: "燚", pinyin: "yì", arti: "api" },
-  { char: "茻", pinyin: "mǎng", arti: "rumput" },
-  { char: "朤", pinyin: "lǎng", arti: "terang" },
-  { char: "䨻", pinyin: "bèng", arti: "gemuruh" },
-  { char: "䲜", pinyin: "yè", arti: "ikan" },
-  { char: "鱻", pinyin: "xiān", arti: "ikan segar" },
-  { char: "猋", pinyin: "biāo", arti: "lari" },
-  { char: "麤", pinyin: "cū", arti: "kasar" },
-  { char: "龖", pinyin: "dá", arti: "naga" },
-  { char: "纛", pinyin: "dào", arti: "panji" },
-  { char: "鼙", pinyin: "pí", arti: "genderang" },
-  { char: "鼗", pinyin: "táo", arti: "rebana" },
-  { char: "磬", pinyin: "qìng", arti: "batu" },
-  { char: "鼬", pinyin: "yòu", arti: "cerpelai" },
-  { char: "貔", pinyin: "pí", arti: "mitos" },
-  { char: "貅", pinyin: "xiū", arti: "mitos" },
-  { char: "魑", pinyin: "chī", arti: "setan" },
-  { char: "魅", pinyin: "mèi", arti: "hantu" },
-  { char: "魍", pinyin: "wǎng", arti: "hantu air" },
-  { char: "魉", pinyin: "liǎng", arti: "hantu" },
-  { char: "鬻", pinyin: "yù", arti: "jual" },
-  { char: "嚚", pinyin: "yín", arti: "jahat" },
-  { char: "囿", pinyin: "yòu", arti: "kebun" },
-  { char: "圉", pinyin: "yǔ", arti: "kandang" },
-  { char: "翱翔", pinyin: "áoxiáng", arti: "terbang" },
-  { char: "跋扈", pinyin: "báhù", arti: "sewenang" },
-  { char: "斑斓", pinyin: "bānlán", arti: "warni" },
-  { char: "磅礴", pinyin: "pángbó", arti: "besar" },
-  { char: "悖论", pinyin: "bèilùn", arti: "paradoks" },
-  { char: "鄙夷", pinyin: "bǐyí", arti: "remeh" },
-  { char: "编纂", pinyin: "biānzuǎn", arti: "susun" },
-  { char: "鞭策", pinyin: "biāncè", arti: "dorong" },
-  { char: "变迁", pinyin: "biànqiān", arti: "ubah" },
-  { char: "辨别", pinyin: "biànbié", arti: "bedakan" },
-  { char: "彪悍", pinyin: "biāohàn", arti: "gagah" },
-  { char: "别致", pinyin: "biézhì", arti: "unik" },
-  { char: "濒临", pinyin: "bīnlín", arti: "menjelang" },
-  { char: "摒弃", pinyin: "bìngqì", arti: "buang" },
-  { char: "波澜", pinyin: "bōlán", arti: "gelombang" },
-  { char: "博学", pinyin: "bóxué", arti: "terpelajar" },
-  { char: "部署", pinyin: "bùshǔ", arti: "tempat" },
-  { char: "仓促", pinyin: "cāngcù", arti: "tergesa" },
-  { char: "沧桑", pinyin: "cāngsāng", arti: "perubahan" },
-  { char: "操纵", pinyin: "cāozòng", arti: "manipulasi" },
-  { char: "嘈杂", pinyin: "cáozá", arti: "ribut" },
-  { char: "诧异", pinyin: "chàyì", arti: "heran" },
-  { char: "搀扶", pinyin: "chānfú", arti: "dukung" },
-  { char: "缠绵", pinyin: "chánmián", arti: "panjang" },
-  { char: "婵娟", pinyin: "chánjuān", arti: "bulan" },
-  { char: "颤抖", pinyin: "chàndǒu", arti: "getar" },
-  { char: "猖獗", pinyin: "chāngjué", arti: "merajalela" },
-  { char: "长眠", pinyin: "chángmián", arti: "tidur" },
-  { char: "徜徉", pinyin: "chángyáng", arti: "jalan" },
-  { char: "绰约", pinyin: "chuòyuē", arti: "anggun" },
-  { char: "慈悲", pinyin: "cíbēi", arti: "welas" },
-  { char: "璀璨", pinyin: "cuǐcàn", arti: "gemerlap" },
-  { char: "蹉跎", pinyin: "cuōtuó", arti: "sia-sia" },
-  { char: "搭载", pinyin: "dāzài", arti: "muat" },
-  { char: "怠慢", pinyin: "dàimàn", arti: "lalai" },
-  { char: "荡漾", pinyin: "dàngyàng", arti: "goyang" },
-  { char: "祷告", pinyin: "dǎogào", arti: "doa" },
-  { char: "嫡系", pinyin: "díxì", arti: "keturunan" },
-  { char: "砥砺", pinyin: "dǐlì", arti: "asah" },
-  { char: "抵御", pinyin: "dǐyù", arti: "tahan" },
-  { char: "颠簸", pinyin: "diānbǒ", arti: "goyah" },
-  { char: "颠覆", pinyin: "diānfù", arti: "jungkir" },
-  { char: "雕琢", pinyin: "diāozhuó", arti: "pahat" },
-  { char: "跌宕", pinyin: "diēdàng", arti: "irama" },
-  { char: "叮嘱", pinyin: "dīngzhǔ", arti: "pesan" },
-  { char: "笃定", pinyin: "dǔdìng", arti: "pasti" },
-  { char: "杜绝", pinyin: "dùjué", arti: "henti" },
-  { char: "端倪", pinyin: "duānní", arti: "awal" },
-  { char: "兑现", pinyin: "duìxiàn", arti: "penuhi" },
-  { char: "遁逃", pinyin: "dùntáo", arti: "lari" },
-  { char: "哆嗦", pinyin: "duōsuo", arti: "gemetar" },
-  { char: "婀娜", pinyin: "ēnuó", arti: "anggun" },
-  { char: "讹诈", pinyin: "ézhà", arti: "peras" },
-  { char: "遏制", pinyin: "èzhì", arti: "tahan" },
-  { char: "恩怨", pinyin: "ēnyuàn", arti: "dendam" },
-  { char: "尔虞我诈", pinyin: "ěryúwǒzhà", arti: "tipu" },
-  { char: "发轫", pinyin: "fārèn", arti: "mulai" },
-  { char: "繁衍", pinyin: "fányǎn", arti: "biak" },
-  { char: "彷徨", pinyin: "pánghuáng", arti: "bimbang" },
-  { char: "菲薄", pinyin: "fěibó", arti: "rendah" },
-  { char: "诽谤", pinyin: "fěibàng", arti: "fitnah" },
-  { char: "斐然", pinyin: "fěirán", arti: "cemerlang" },
-  { char: "分寸", pinyin: "fēncùn", arti: "batas" },
-  { char: "愤懑", pinyin: "fènmèn", arti: "marah" },
-  { char: "风韵", pinyin: "fēngyùn", arti: "daya tarik" },
-  { char: "敷衍", pinyin: "fūyǎn", arti: "setengah" },
-  { char: "扶摇", pinyin: "fúyáo", arti: "naik" },
-  { char: "拂晓", pinyin: "fúxiǎo", arti: "subuh" },
-  { char: "辐射", pinyin: "fúshè", arti: "radiasi" },
-  { char: "福祉", pinyin: "fúzhǐ", arti: "bahagia" },
-  { char: "斧正", pinyin: "fǔzhèng", arti: "koreksi" },
-  { char: "腐败", pinyin: "fǔbài", arti: "korupsi" },
-  { char: "讣告", pinyin: "fùgào", arti: "obituari" },
-  { char: "赋予", pinyin: "fùyǔ", arti: "beri" },
-  { char: "尴尬", pinyin: "gāngà", arti: "canggung" },
-  { char: "甘霖", pinyin: "gānlín", arti: "hujan" },
-  { char: "感慨", pinyin: "gǎnkǎi", arti: "terharu" },
-  { char: "刚毅", pinyin: "gāngyì", arti: "tegar" },
-  { char: "浩瀚", pinyin: "hàohàn", arti: "luas" },
-  { char: "和谐", pinyin: "héxié", arti: "harmonis" },
-  { char: "鸿鹄", pinyin: "hónghú", arti: "angsa" },
-  { char: "迥异", pinyin: "jiǒngyì", arti: "berbeda" },
-  { char: "韬略", pinyin: "tāolüè", arti: "strategi" },
-  { char: "巍峨", pinyin: "wēi'é", arti: "tinggi" },
-  { char: "蜿蜒", pinyin: "wānyán", arti: "kelok" },
-  { char: "徇私", pinyin: "xùnsī", arti: "korupsi" },
-  { char: "氤氲", pinyin: "yīnyūn", arti: "kabut" },
-  { char: "恣意", pinyin: "zìyì", arti: "sewenang" },
-  { char: "憧憬", pinyin: "chōngjǐng", arti: "bayang" },
-  { char: "惆怅", pinyin: "chóuchàng", arti: "sedih" },
-  { char: "踌躇", pinyin: "chóuchú", arti: "ragu" },
-  { char: "倜傥", pinyin: "tìtǎng", arti: "menawan" },
-  { char: "龃龉", pinyin: "jǔyǔ", arti: "selisih" },
-  { char: "魑魅魍魉", pinyin: "chīmèiwǎngliǎng", arti: "hantu" },
+  // ---------- DATABASE KOSAKATA (unik) ----------
+  const hanziDatabase = [
+  { char: "爱", pinyin: "ài", arti: "cinta" },
+  { char: "安", pinyin: "ān", arti: "aman" },
+  { char: "办", pinyin: "bàn", arti: "urus" },
+  { char: "保", pinyin: "bǎo", arti: "jaga" },
+  { char: "备", pinyin: "bèi", arti: "siap" },
+  { char: "变", pinyin: "biàn", arti: "ubah" },
+  { char: "表", pinyin: "biǎo", arti: "tampil" },
+  { char: "别", pinyin: "bié", arti: "pisah" },
+  { char: "并", pinyin: "bìng", arti: "gabung" },
+  { char: "部", pinyin: "bù", arti: "bagian" },
+
+  { char: "才", pinyin: "cái", arti: "bakat" },
+  { char: "参", pinyin: "cān", arti: "ikut" },
+  { char: "产", pinyin: "chǎn", arti: "hasil" },
+  { char: "常", pinyin: "cháng", arti: "sering" },
+  { char: "成", pinyin: "chéng", arti: "jadi" },
+  { char: "程", pinyin: "chéng", arti: "proses" },
+  { char: "持", pinyin: "chí", arti: "pegang" },
+  { char: "充", pinyin: "chōng", arti: "isi" },
+  { char: "除", pinyin: "chú", arti: "hapus" },
+  { char: "传", pinyin: "chuán", arti: "sebar" },
+
+  { char: "达", pinyin: "dá", arti: "capai" },
+  { char: "代", pinyin: "dài", arti: "ganti" },
+  { char: "单", pinyin: "dān", arti: "tunggal" },
+  { char: "当", pinyin: "dāng", arti: "jadi" },
+  { char: "导", pinyin: "dǎo", arti: "arah" },
+  { char: "得", pinyin: "dé", arti: "dapat" },
+  { char: "等", pinyin: "děng", arti: "tunggu" },
+  { char: "低", pinyin: "dī", arti: "rendah" },
+  { char: "底", pinyin: "dǐ", arti: "dasar" },
+  { char: "第", pinyin: "dì", arti: "urutan" },
+
+  { char: "定", pinyin: "dìng", arti: "tetap" },
+  { char: "动", pinyin: "dòng", arti: "gerak" },
+  { char: "断", pinyin: "duàn", arti: "putus" },
+  { char: "对", pinyin: "duì", arti: "benar" },
+  { char: "发", pinyin: "fā", arti: "kirim" },
+  { char: "法", pinyin: "fǎ", arti: "hukum" },
+  { char: "反", pinyin: "fǎn", arti: "balik" },
+  { char: "方", pinyin: "fāng", arti: "arah" },
+  { char: "分", pinyin: "fēn", arti: "bagi" },
+  { char: "风", pinyin: "fēng", arti: "angin" },
+
+  { char: "改", pinyin: "gǎi", arti: "ubah" },
+  { char: "感", pinyin: "gǎn", arti: "rasa" },
+  { char: "高", pinyin: "gāo", arti: "tinggi" },
+  { char: "各", pinyin: "gè", arti: "masing" },
+  { char: "更", pinyin: "gèng", arti: "lebih" },
+  { char: "公", pinyin: "gōng", arti: "publik" },
+  { char: "共", pinyin: "gòng", arti: "bersama" },
+  { char: "构", pinyin: "gòu", arti: "susun" },
+  { char: "关", pinyin: "guān", arti: "tutup" },
+  { char: "管", pinyin: "guǎn", arti: "atur" },
+
+  { char: "国", pinyin: "guó", arti: "negara" },
+  { char: "过", pinyin: "guò", arti: "lewat" },
+  { char: "还", pinyin: "hái", arti: "masih" },
+  { char: "好", pinyin: "hǎo", arti: "baik" },
+  { char: "号", pinyin: "hào", arti: "nomor" },
+  { char: "合", pinyin: "hé", arti: "gabung" },
+  { char: "何", pinyin: "hé", arti: "apa" },
+  { char: "和", pinyin: "hé", arti: "damai" },
+  { char: "很", pinyin: "hěn", arti: "sangat" },
+  { char: "后", pinyin: "hòu", arti: "setelah" },
+
+  { char: "化", pinyin: "huà", arti: "ubah" },
+  { char: "话", pinyin: "huà", arti: "bicara" },
+  { char: "会", pinyin: "huì", arti: "bisa" },
+  { char: "机", pinyin: "jī", arti: "mesin" },
+  { char: "级", pinyin: "jí", arti: "tingkat" },
+  { char: "极", pinyin: "jí", arti: "sangat" },
+  { char: "计", pinyin: "jì", arti: "hitung" },
+  { char: "记", pinyin: "jì", arti: "ingat" },
+  { char: "加", pinyin: "jiā", arti: "tambah" },
+  { char: "家", pinyin: "jiā", arti: "rumah" },
+
+  { char: "间", pinyin: "jiān", arti: "ruang" },
+  { char: "见", pinyin: "jiàn", arti: "lihat" },
+  { char: "将", pinyin: "jiāng", arti: "akan" },
+  { char: "教", pinyin: "jiào", arti: "ajar" },
+  { char: "接", pinyin: "jiē", arti: "sambung" },
+  { char: "结", pinyin: "jié", arti: "ikat" },
+  { char: "解", pinyin: "jiě", arti: "jelas" },
+  { char: "进", pinyin: "jìn", arti: "masuk" },
+  { char: "经", pinyin: "jīng", arti: "lewat" },
+  { char: "开", pinyin: "kāi", arti: "buka" },
+
+  { char: "看", pinyin: "kàn", arti: "lihat" },
+  { char: "考", pinyin: "kǎo", arti: "uji" },
+  { char: "可", pinyin: "kě", arti: "boleh" },
+  { char: "空", pinyin: "kōng", arti: "kosong" },
+  { char: "口", pinyin: "kǒu", arti: "mulut" },
+  { char: "快", pinyin: "kuài", arti: "cepat" },
+  { char: "来", pinyin: "lái", arti: "datang" },
+  { char: "理", pinyin: "lǐ", arti: "logika" },
+  { char: "力", pinyin: "lì", arti: "tenaga" },
+  { char: "立", pinyin: "lì", arti: "berdiri" }
 ];
 
-// ==================== GAME STATE ====================
-let currentCards = [];
-let flippedCards = [];
-let lockBoard = false;
-let moves = 0;
-let matches = 0;
+  let currentCards = [];
+  let flippedIndices = [];
+  let lockBoard = false;
+  let moves = 0;
+  let matches = 0;
+  let gameActive = true;
 
-const board = document.getElementById("gameBoard");
-const resetBtn = document.getElementById("resetBtn");
+  const boardEl = document.getElementById("gameBoard");
+  const resetBtn = document.getElementById("resetBtn");
+  const topScorerCompact = document.getElementById("topScorerCompact");
+  const currentScoreSpan = document.getElementById("currentScore");
+  const currentMovesSpan = document.getElementById("currentMoves");
 
-// Fungsi acak 6 pasang
-function selectRandomPairs() {
-  const shuffled = [...hanziDatabase];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  // Score : max 1250 jika 6 langkah, minus 25 tiap langkah tambahan
+  function calculateScore(movesCount, matchedPairs) {
+    if (matchedPairs < 6) return 0;
+    return Math.max(0, 1250 - (movesCount - 6) * 25);
   }
-  const selected = shuffled.slice(0, 6);
-  let deck = [];
-  selected.forEach((item) => {
-    deck.push(item.char);
-    deck.push(item.char);
-  });
-  for (let i = deck.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [deck[i], deck[j]] = [deck[j], deck[i]];
+
+  function updateStatsUI() {
+    currentMovesSpan.innerText = moves;
+    const score = calculateScore(moves, matches);
+    currentScoreSpan.innerText = score;
   }
-  return deck.map((char, idx) => ({
-    id: idx,
-    char: char,
-    flipped: false,
-    matched: false,
-  }));
-}
 
-function initGame() {
-  currentCards = selectRandomPairs();
-  flippedCards = [];
-  lockBoard = false;
-  moves = 0;
-  matches = 0;
-  renderBoard();
-}
-
-function renderBoard() {
-  board.innerHTML = "";
-  currentCards.forEach((card, idx) => {
-    const cardDiv = document.createElement("div");
-    // Base classes Tailwind untuk kartu
-    let baseClasses =
-      "bg-gradient-to-br from-slate-800 to-slate-900 border-2 border-amber-400 rounded-lg flex flex-col justify-center items-center text-center cursor-pointer transition-all duration-200 shadow-lg aspect-[3/4] p-3";
-
-    if (card.matched) {
-      baseClasses +=
-        " bg-gradient-to-br from-red-800 to-red-900 scale-95 opacity-80 cursor-default shadow-[0_0_6px_#fbbf24]";
-    } else if (card.flipped) {
-      baseClasses += " bg-gradient-to-br from-red-800 to-red-900 scale-95";
-    } else {
-      baseClasses += " hover:scale-[0.98]";
+  // Pilih 6 pasangan acak dari database
+  function selectRandomPairs() {
+    const shuffled = [...hanziDatabase];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
+    const selected = shuffled.slice(0, 6);
+    let deck = [];
+    selected.forEach(item => { deck.push(item.char, item.char); });
+    for (let i = deck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+    return deck.map((char, idx) => ({ id: idx, char, flipped: false, matched: false }));
+  }
 
-    cardDiv.className = baseClasses;
+  function renderBoard() {
+    boardEl.innerHTML = "";
+    currentCards.forEach((card, idx) => {
+      const cardDiv = document.createElement("div");
+      cardDiv.className = "card";
+      if (card.matched) cardDiv.classList.add("matched");
+      if (card.flipped && !card.matched) cardDiv.classList.add("flipped");
 
-    if (card.flipped || card.matched) {
-      const data = hanziDatabase.find((h) => h.char === card.char);
-      if (data) {
-        cardDiv.innerHTML = `
-                        <div class="text-5xl font-bold text-amber-400 mb-1 md:mb-2 leading-tight">${data.char}</div>
-                        <div class="text-xl font-sans text-amber-300 mb-1">${data.pinyin}</div>
-                        <div class="text-2xl text-amber-100 max-w-[90%] break-words">${data.arti}</div>
-                    `;
+      if (card.flipped || card.matched) {
+        const data = hanziDatabase.find(h => h.char === card.char);
+        if (data) {
+          cardDiv.innerHTML = `
+            <div class="card-hanzi">${data.char}</div>
+            <div class="card-pinyin">${data.pinyin}</div>
+            <div class="card-arti">${data.arti}</div>
+          `;
+        } else {
+          cardDiv.innerHTML = `<div class="card-hanzi">${card.char}</div>`;
+        }
       } else {
-        cardDiv.innerHTML = `<div class="text-5xl font-bold text-amber-400">${card.char}</div>`;
+        cardDiv.innerHTML = `<div class="card-question">?</div>`;
       }
-    } else {
-      cardDiv.innerHTML = `<div class="text-5xl md:text-6xl font-bold text-slate-400">?</div>`;
-    }
+      cardDiv.addEventListener("click", () => onCardClick(idx));
+      boardEl.appendChild(cardDiv);
+    });
+  }
 
-    cardDiv.addEventListener("click", () => onCardClick(idx));
-    board.appendChild(cardDiv);
-  });
-}
+  function onCardClick(idx) {
+    if (lockBoard || !gameActive) return;
+    const card = currentCards[idx];
+    if (card.matched || card.flipped) return;
 
-function onCardClick(idx) {
-  if (lockBoard) return;
-  const card = currentCards[idx];
-  if (card.matched || card.flipped) return;
+    card.flipped = true;
+    flippedIndices.push(idx);
+    renderBoard();
 
-  card.flipped = true;
-  flippedCards.push(idx);
-  renderBoard();
+    if (flippedIndices.length === 2) {
+      moves++;
+      updateStatsUI();
+      lockBoard = true;
+      const idxA = flippedIndices[0];
+      const idxB = flippedIndices[1];
+      const cardA = currentCards[idxA];
+      const cardB = currentCards[idxB];
 
-  if (flippedCards.length === 2) {
-    moves++;
-    lockBoard = true;
-    const idxA = flippedCards[0];
-    const idxB = flippedCards[1];
-    const cardA = currentCards[idxA];
-    const cardB = currentCards[idxB];
-
-    if (cardA.char === cardB.char) {
-      cardA.matched = true;
-      cardB.matched = true;
-      cardA.flipped = false;
-      cardB.flipped = false;
-      matches++;
-      flippedCards = [];
-      lockBoard = false;
-      renderBoard();
-      if (matches === 6) {
-        setTimeout(
-          () => alert("✨ Selesai! ✨ Tekan tombol reset untuk bermain lagi."),
-          50,
-        );
-      }
-    } else {
-      setTimeout(() => {
-        currentCards[idxA].flipped = false;
-        currentCards[idxB].flipped = false;
-        flippedCards = [];
+      if (cardA.char === cardB.char) {
+        cardA.matched = true;
+        cardB.matched = true;
+        cardA.flipped = false;
+        cardB.flipped = false;
+        matches++;
+        flippedIndices = [];
         lockBoard = false;
         renderBoard();
-      }, 650);
+        updateStatsUI();
+
+        if (matches === 6 && gameActive) {
+          gameActive = false;
+          const finalScore = calculateScore(moves, 6);
+          setTimeout(() => showGameOverModal(finalScore), 80);
+        }
+      } else {
+        setTimeout(() => {
+          if (gameActive) {
+            currentCards[idxA].flipped = false;
+            currentCards[idxB].flipped = false;
+            flippedIndices = [];
+            lockBoard = false;
+            renderBoard();
+          }
+        }, 600);
+      }
     }
   }
-  if (flippedCards.length === 2 && matches === 6) lockBoard = false;
-}
 
-resetBtn.addEventListener("click", () => initGame());
-initGame();
+  // ---------- TOP SCORER (hanya 1 terbaik ditampilkan di header) ----------
+  const STORAGE_KEY = "memory_match_topscorers";
+  function getTopScorers() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw).slice(0, 8) : [];
+  }
+  function saveTopScorer(name, score, movesCount) {
+    let scorers = getTopScorers();
+    scorers.push({ name: name.trim() || "Anonim", score, moves: movesCount, date: Date.now() });
+    scorers.sort((a, b) => b.score - a.score);
+    if (scorers.length > 8) scorers.pop();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(scorers));
+    updateTopScorerUI();
+  }
+  function updateTopScorerUI() {
+    const topList = getTopScorers();
+    if (!topList.length) {
+      topScorerCompact.innerHTML = "-";
+      return;
+    }
+    const best = topList[0];
+    // tampilkan hanya 1 terbaik dengan skor
+    topScorerCompact.innerHTML = `${best.name} : ${best.score} pts`;
+  }
+
+  // MODAL GAME OVER lengkap dengan daftar top scorer (tetap 5 besar)
+  function showGameOverModal(finalScore) {
+    const modalDiv = document.createElement("div");
+    modalDiv.className = "modal-overlay";
+    const currentTop = getTopScorers();
+    let topHtml = "<div class='font-bold text-lg mb-1 text-amber-900'>TOP SCORER</div>";
+    if (currentTop.length === 0) topHtml += "<div class='text-sm'>Belum ada skor</div>";
+    else {
+      currentTop.slice(0, 5).forEach((s, i) => {
+        topHtml += `<div class='text-md'>${i+1}. ${s.name} — ${s.score} pts (${s.moves} langkah)</div>`;
+      });
+    }
+    modalDiv.innerHTML = `
+      <div class="modal-card">
+        <h2 class="text-3xl font-bold text-red-800 mb-1">✨ SELAMAT! ✨</h2>
+        <p class="text-xl text-stone-800">Anda menyelesaikan semua kartu!</p>
+        <div class="bg-amber-100 rounded-xl p-3 my-3">
+          <p class="text-2xl font-bold">Skor Akhir: ${finalScore} poin</p>
+          <p class="text-md">Total langkah: ${moves}</p>
+        </div>
+        <p class="text-xl font-semibold">Masukkan nama:</p>
+        <input id="playerNameInput" class="bg-white/80 text-xl text-center p-2 rounded-full w-full my-2 border border-amber-600" placeholder="Nama pemain" maxlength="20">
+        <div id="modalTopScorerList" class="bg-white/50 rounded-xl p-3 my-3 max-h-36 overflow-y-auto text-left text-sm">${topHtml}</div>
+        <button id="saveScoreModalBtn" class="bg-green-700 hover:bg-green-800 text-white font-bold px-6 py-2 rounded-full mt-2">💾 Simpan & Main Lagi</button>
+      </div>
+    `;
+    document.body.appendChild(modalDiv);
+    const inputName = modalDiv.querySelector("#playerNameInput");
+    const saveBtn = modalDiv.querySelector("#saveScoreModalBtn");
+    saveBtn.onclick = () => {
+      const name = inputName.value.trim() || "Pemenang";
+      saveTopScorer(name, finalScore, moves);
+      modalDiv.remove();
+      resetFullGame();
+    };
+    inputName.addEventListener("keypress", (e) => { if (e.key === "Enter") saveBtn.click(); });
+  }
+
+  function resetFullGame() {
+    currentCards = selectRandomPairs();
+    flippedIndices = [];
+    lockBoard = false;
+    moves = 0;
+    matches = 0;
+    gameActive = true;
+    updateStatsUI();
+    renderBoard();
+  }
+
+  function initGame() {
+    resetFullGame();
+    updateTopScorerUI();
+  }
+
+  resetBtn.addEventListener("click", () => initGame());
+  initGame();

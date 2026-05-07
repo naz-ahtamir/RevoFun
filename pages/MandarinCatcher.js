@@ -195,7 +195,7 @@
   let floatingEffects = [];
   let topScores = [];
 
-  // ========== Top Scorer (Aman XSS) ==========
+  // ========== Top Scorer ==========
   function loadTopScores() {
     const stored = localStorage.getItem("kotak_mandarin_scores");
     if (stored) {
@@ -228,19 +228,18 @@
     const highest = topScores[0];
     const div = document.createElement("div");
     div.className = "text-2xl whitespace-nowrap";
-    div.textContent = `${escapeHTML(highest.nick)} : ${highest.score}`;
+    div.textContent = `${escapeHTML(highest.nick)} : ${highest.score} pts`;
     topScorerListDiv.appendChild(div);
   }
 
   function renderModalLeaderboard() {
     if (!modalLeaderboardList) return;
-    modalLeaderboardList.innerHTML = "<p class='font-bold'>🏆 TOP SCORER</p>";
+    modalLeaderboardList.innerHTML = "<p class='font-bold'>TOP SCORER</p>";
     if (topScores.length === 0) {
       modalLeaderboardList.innerHTML +=
         "<p class='text-gray-500'>Belum ada skor</p>";
     } else {
       topScores.forEach((s, i) => {
-        // aman: pakai textContent via DOM atau escapeHTML untuk innerHTML
         const rankDiv = document.createElement("div");
         rankDiv.className = "text-sm";
         rankDiv.textContent = `${i + 1}. ${s.nick} — ${s.score} poin`;
@@ -266,7 +265,11 @@
     const randomIdx = Math.floor(Math.random() * FULL_VOCAB.length);
     currentQuestion = { ...FULL_VOCAB[randomIdx] };
     currentTargetHanzi = currentQuestion.hanzi;
-    questionTextEl.innerHTML = `${currentQuestion.arti.toUpperCase()}     (${currentQuestion.pinyin})     ${currentQuestion.hanzi}`;
+    questionTextEl.innerHTML = `
+            <div>${currentQuestion.arti.toUpperCase()}</div>
+            <div>${currentQuestion.pinyin}</div>
+            <div>${currentQuestion.hanzi}</div>
+          `;
   }
 
   function createKotak(text, isCorrect, x = null, y = null) {
@@ -551,7 +554,6 @@
     }
   });
 
-  // Helper roundRect
   if (!CanvasRenderingContext2D.prototype.roundRect) {
     CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
       if (w < 2 * r) r = w / 2;
@@ -569,7 +571,6 @@
     };
   }
 
-  // ========== START ==========
   loadTopScores();
   generateNewQuestion();
   currentTargetHanzi = currentQuestion.hanzi;

@@ -2,8 +2,13 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <title>Mandarin Catcher | RevoFun</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="images/favicon-new.webp" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link
       rel="stylesheet"
@@ -17,9 +22,26 @@
         font-style: normal;
       }
 
+      /* ==== PASTIKAN 1 LAYAR LANDSCAPE, TIDAK SCROLL ==== */
+      * {
+        box-sizing: border-box;
+      }
+
       body {
         font-family: "BobbyJones", "Noto Sans CJK SC", monospace;
-        overflow: hidden;
+        overflow: hidden; /* matikan scroll global */
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-image: url("/images/bg-mandarin-catcher.webp");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
       }
 
       canvas {
@@ -28,6 +50,12 @@
         margin: 0 auto;
         border-radius: 22px;
         background: white;
+        /* ukuran asli 1100x580, tapi scaling CSS akan menyesuaikan */
+        width: auto;
+        max-width: 100%;
+        height: auto;
+        max-height: 100%;
+        object-fit: contain;
       }
 
       button:active {
@@ -40,47 +68,357 @@
         backdrop-filter: blur(8px);
       }
 
-      /* Responsive adjustments */
+      /* ----- FLEX LAYOUT VERTICAL YG MEMAKSA SEMUA MUAT DI 1 LAYAR ----- */
+      .game-container {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        padding: 10px 12px;
+      }
+
+      .game-inner {
+        max-width: 1300px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      /* header area - tidak terlalu boros tinggi */
+      .game-header {
+        flex-shrink: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+      }
+
+      /* canvas wrapper biar fleksibel & ga overflow */
+      .canvas-wrapper {
+        flex: 1 1 auto;
+        min-height: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      #gameCanvas {
+        max-height: 100%;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      /* tombol fixed tetap aman */
+      .fixed-bottom-left {
+        position: fixed;
+        bottom: 16px;
+        left: 16px;
+        z-index: 20;
+      }
+      .fixed-bottom-right {
+        position: fixed;
+        bottom: 16px;
+        right: 16px;
+        z-index: 20;
+      }
+      .fixed-btn {
+        background-color: #3b82f6;
+        color: white;
+        border-radius: 9999px;
+        width: 48px;
+        height: 48px;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+        transition: transform 0.1s;
+      }
+      .fixed-btn:active {
+        transform: scale(0.95);
+      }
+
+      /* responsive ketat untuk small & medium device */
       @media (max-width: 768px) {
-        #gameCanvas {
-          max-width: 90vw;
-          max-height: 50vh;
+        .game-header {
+          padding: 4px 8px;
+          gap: 6px;
+        }
+        .game-header img {
+          height: 48px;
         }
         .text-3xl {
-          font-size: 1.5rem !important;
-        }
-        .text-2xl {
           font-size: 1.25rem !important;
         }
-        .fixed {
-          width: 48px !important;
-          height: 48px !important;
-          font-size: 1.5rem !important;
+        .text-2xl {
+          font-size: 1rem !important;
+        }
+        #questionText {
+          font-size: 1rem !important;
+        }
+        .fixed-btn {
+          width: 40px;
+          height: 40px;
+          font-size: 1.2rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .game-header {
+          padding: 2px 4px;
+        }
+        .game-header img {
+          height: 40px;
+        }
+        .text-3xl {
+          font-size: 1rem !important;
+        }
+        .text-2xl {
+          font-size: 0.85rem !important;
+        }
+        #questionText {
+          font-size: 0.85rem !important;
+        }
+        .fixed-btn {
+          width: 36px;
+          height: 36px;
+          font-size: 1rem;
+        }
+      }
+
+      /* ----- Landscape mode untuk orientasi portrait (biar tetap landscape forced) ----- */
+      @media screen and (orientation: portrait) {
+        body {
+          overflow: hidden;
+          position: fixed;
+          width: 100vh;
+          height: 100vw;
+          transform: rotate(90deg);
+          transform-origin: top left;
+          top: 0;
+          left: 100%;
+          background-attachment: scroll; /* hindari fixed pada transform rotate */
+          background-size: cover;
+          background-position: center center;
+        }
+        .game-container {
+          width: 100vw;
+          height: 100vh;
+          transform: rotate(-90deg);
+          transform-origin: center center;
+          position: relative;
+          top: auto;
+          left: auto;
+        }
+      }
+
+      /* Perbaikan untuk mobile HP (max-width 640px) */
+      @media (max-width: 640px) {
+        .game-header {
+          padding: 4px 6px !important;
+          gap: 4px !important;
+        }
+
+        .game-header img {
+          height: 32px !important; /* logo lebih kecil */
+        }
+
+        .game-header .text-3xl {
+          font-size: 1rem !important; /* TOP SCORER */
+        }
+
+        .game-header .text-2xl {
+          font-size: 0.7rem !important; /* skor, nyawa, top scorer */
+        }
+
+        #topScorerList {
+          font-size: 0.7rem !important;
+        }
+
+        .game-header .text-center .text-2xl {
+          font-size: 0.5rem !important; /* teks "TANGKAP KOTAK..." */
+          white-space: normal !important; /* biar bisa turun baris */
+          letter-spacing: normal !important;
+        }
+
+        #questionText {
+          font-size: 0.5rem !important;
+          white-space: normal !important;
+          line-height: 1.2 !important;
+        }
+
+        .game-header .flex.items-center.gap-1 {
+          gap: 2px !important;
+        }
+
+        .game-header .flex.items-center.gap-2 {
+          gap: 4px !important;
+        }
+
+        /* perkecil ikon bintang & hati */
+        .game-header .fas.fa-star,
+        .game-header .fas.fa-heart {
+          font-size: 0.2rem !important;
+        }
+      }
+
+      /* Perkecil modal game over untuk HP */
+      @media (max-width: 640px) {
+        #gameOverModal > div {
+          max-width: 85%; /* lebih kecil dari 100% */
+          width: 280px; /* batas lebar ideal HP */
+          padding: 1rem !important; /* perkecil padding dalam */
+          margin: 0 auto;
+        }
+
+        #gameOverModal h2 {
+          font-size: 1.8rem !important; /* dari 4xl (≈2.5rem) turun ~30% */
+        }
+
+        #gameOverModal p,
+        #gameOverModal .text-xl,
+        #gameOverModal .text-2xl,
+        #gameOverModal .font-semibold {
+          font-size: 1rem !important; /* perkecil teks */
+          margin-bottom: 0.5rem !important;
+        }
+
+        #gameOverModal input {
+          font-size: 1.2rem !important; /* dari text-3xl turun banyak */
+          padding: 0.5rem !important;
+        }
+
+        #gameOverModal button {
+          font-size: 0.9rem !important;
+          padding: 0.4rem 1rem !important;
+        }
+
+        #modalLeaderboardList {
+          font-size: 0.85rem !important;
+          max-height: 100px !important;
+          padding: 0.5rem !important;
+        }
+      }
+
+      /* Perkecil modal untuk layar sangat kecil (≤ 480px) */
+      @media (max-width: 480px) {
+        #gameOverModal > div {
+          width: 260px !important; /* lebih kecil dari 280px */
+          max-width: 85% !important;
+          padding: 0.75rem !important; /* padding lebih rapat */
+        }
+
+        #gameOverModal h2 {
+          font-size: 1.5rem !important; /* dari 1.8rem, turun lagi */
+          margin-bottom: 0.25rem !important;
+        }
+
+        #gameOverModal p,
+        #gameOverModal .text-xl,
+        #gameOverModal .text-2xl,
+        #gameOverModal .font-semibold {
+          font-size: 0.85rem !important; /* lebih kecil */
+          margin-bottom: 0.25rem !important;
+        }
+
+        #gameOverModal input {
+          font-size: 1rem !important; /* dari 1.2rem turun */
+          padding: 0.4rem !important;
+        }
+
+        #gameOverModal button {
+          font-size: 0.8rem !important;
+          padding: 0.3rem 0.8rem !important;
+        }
+
+        #modalLeaderboardList {
+          font-size: 0.75rem !important;
+          max-height: 80px !important;
+          padding: 0.25rem !important;
+        }
+      }
+
+      @media (min-width: 768px) {
+        #questionText {
+          flex-direction: row;
+          gap: 12px;
+        }
+      }
+      #questionText {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        align-items: center;
+      }
+
+      /* Perbaikan modal untuk HP dalam mode LANDSCAPE (tinggi terbatas) */
+      @media (max-height: 480px) and (orientation: landscape) {
+        #gameOverModal > div {
+          max-width: 70% !important;
+          width: auto !important;
+          padding: 0.5rem 1rem !important;
+          margin: 0 auto;
+        }
+
+        #gameOverModal h2 {
+          font-size: 1.2rem !important;
+        }
+
+        #gameOverModal p,
+        #gameOverModal .text-xl,
+        #gameOverModal .text-2xl,
+        #gameOverModal .font-semibold {
+          font-size: 0.7rem !important;
+          margin-bottom: 0.2rem !important;
+        }
+
+        #gameOverModal input {
+          font-size: 0.8rem !important;
+          padding: 0.2rem !important;
+        }
+
+        #gameOverModal button {
+          font-size: 0.7rem !important;
+          padding: 0.2rem 0.8rem !important;
+        }
+
+        #modalLeaderboardList {
+          font-size: 0.6rem !important;
+          max-height: 60px !important;
+          padding: 0.2rem !important;
         }
       }
     </style>
   </head>
 
-  <body
-    class="bg-[url('/images/bg-mandarin-catcher.webp')] bg-cover min-h-screen flex items-center justify-center p-3"
-  >
-    <!-- Landscape wrapper untuk non-index pages -->
-    <div class="landscape-wrapper w-full h-full flex items-center justify-center">
-      <div
-        class="w-full max-w-7xl mx-auto flex flex-col items-center gap-3 relative"
-      >
-        <!-- Header -->
-        <div
-          class="px-6 py-3 flex flex-wrap justify-between items-center w-full gap-2"
-        >
-          <div class="flex items-center gap-3">
+  <body class="bg-[url('/images/bg-mandarin-catcher.webp')] bg-cover bg-center">
+    <!-- container utama - memaksa landscape di semua device -->
+    <div class="game-container">
+      <div class="game-inner">
+        <!-- Header (tidak berubah desain, hanya layout dipadatkan) -->
+        <div class="game-header">
+          <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <img
               src="/images/logo-revofun.webp"
               alt="Logo"
-              class="h-22 w-auto object-contain"
+              class="h-12 sm:h-16 md:h-20 w-auto object-contain"
             />
             <div>
-              <div class="text-3xl text-[#A17359] font-bold">TOP SCORER</div>
+              <div class="text-3xl text-[#A17359] font-bold whitespace-nowrap">
+                TOP SCORER
+              </div>
               <div
                 id="topScorerList"
                 class="text-[#A17359] font-bold text-2xl leading-tight"
@@ -89,18 +427,22 @@
               </div>
             </div>
           </div>
-          <div class="text-center">
-            <div class="text-2xl font-bold text-[#A17359] tracking-widest">
-              TANGKAP KOTAK HANZI YANG SESUAI
+          <div class="text-center flex-1 min-w-0 px-1">
+            <div
+              class="text-2xl font-bold text-[#A17359] tracking-widest whitespace-nowrap md:whitespace-normal"
+            >
+              SOAL
             </div>
             <div
               id="questionText"
-              class="text-2xl font-bold text-[#F8375A] tracking-widest"
+              class="text-2xl font-bold text-[#F8375A] tracking-widest truncate"
             >
               Memuat...
             </div>
           </div>
-          <div class="flex items-center gap-4 whitespace-nowrap">
+          <div
+            class="flex items-center gap-2 sm:gap-4 whitespace-nowrap flex-shrink-0"
+          >
             <div class="flex items-center gap-1">
               <i class="fas fa-star text-yellow-500"></i>
               <span class="text-[#F8375A] text-2xl font-bold">SKOR : </span>
@@ -120,58 +462,40 @@
           </div>
         </div>
 
-        <canvas
-          id="gameCanvas"
-          width="1100"
-          height="580"
-          class="shadow-2xl bg-white w-full max-w-[1100px] h-auto max-h-[68vh]"
-        ></canvas>
-
-        <div class="w-full flex justify-between items-center mt-2 px-2">
-          <button
-            id="backHomeBtn"
-            type="button"
-            title="Back to Home"
-            onclick="window.location.href = '/'"
-            class="fixed bottom-5 left-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10"
-          >
-            <i class="fas fa-home"></i>
-          </button>
-          <button
-            id="resetBottomBtn"
-            title="Reset Game"
-            class="fixed bottom-5 right-5 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 text-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center z-10"
-          >
-            <i class="fas fa-sync"></i>
-          </button>
+        <!-- Canvas area - fleksibel, tetap dalam 1 layar -->
+        <div class="canvas-wrapper">
+          <canvas
+            id="gameCanvas"
+            width="1100"
+            height="580"
+            class="shadow-2xl bg-white"
+          ></canvas>
         </div>
+
+        <!-- Spacer kecil biar tombol tidak overlap (tapi tombol fixed sudah aman) -->
+        <div class="h-2"></div>
       </div>
     </div>
-    <style>
-      /* Landscape mode untuk non-index pages */
-      @media screen and (orientation: portrait) {
-        body {
-          overflow: hidden;
-        }
-        .landscape-wrapper {
-          transform: rotate(90deg);
-          transform-origin: center center;
-          width: 100vh;
-          height: 100vw;
-          position: fixed;
-          top: 0;
-          left: 0;
-          margin: 0;
-          overflow: hidden;
-        }
-        .landscape-wrapper > * {
-          transform: rotate(-90deg);
-          transform-origin: center center;
-        }
-      }
-    </style>
 
-    <!-- MODAL GAME OVER (hanya tombol simpan) -->
+    <!-- Tombol fixed (tidak mengganggu layout) -->
+    <button
+      id="backHomeBtn"
+      type="button"
+      title="Back to Home"
+      onclick="window.location.href = '/'"
+      class="fixed-bottom-left fixed-btn hover:bg-blue-600"
+    >
+      <i class="fas fa-home"></i>
+    </button>
+    <button
+      id="resetBottomBtn"
+      title="Reset Game"
+      class="fixed-bottom-right fixed-btn hover:bg-blue-600"
+    >
+      <i class="fas fa-sync"></i>
+    </button>
+
+    <!-- MODAL GAME OVER (desain asli) -->
     <div
       id="gameOverModal"
       class="hidden fixed inset-0 bg-[#DBCEB2] z-50 items-center justify-center modal-overlay"
