@@ -229,7 +229,6 @@
         .game-header {
           padding: 2px 4px !important;
           gap: 1px !important;
-          flex-wrap: nowrap !important;
         }
 
         .game-header img {
@@ -252,12 +251,11 @@
           font-size: 0.5rem !important; /* teks "TANGKAP KOTAK..." */
           white-space: normal !important; /* biar bisa turun baris */
           letter-spacing: normal !important;
-          flex-shrink: 1;
         }
 
         #questionText {
-          font-size: 0.55rem !important; /* perkecil teks soal lebih lanjut */
-          white-space: nowrap !important;
+          font-size: 0.5rem !important;
+          white-space: normal !important;
           line-height: 0.5 !important;
         }
 
@@ -373,41 +371,44 @@
         align-items: center;
       }
 
-      /* Perbaikan modal untuk HP dalam mode LANDSCAPE (tinggi terbatas) */
-      @media (max-height: 480px) and (orientation: landscape) {
+      /* Perbaikan modal untuk HP mode landscape (tinggi sangat terbatas) */
+      @media (max-height: 550px) and (orientation: landscape) {
         #gameOverModal > div {
-          max-width: 70% !important;
+          max-width: 65% !important;
           width: auto !important;
-          padding: 0.5rem 1rem !important;
+          padding: 0.4rem 0.8rem !important;
           margin: 0 auto;
         }
 
         #gameOverModal h2 {
-          font-size: 1.2rem !important;
+          font-size: 1rem !important;
+          margin-bottom: 0.1rem !important;
         }
 
         #gameOverModal p,
         #gameOverModal .text-xl,
         #gameOverModal .text-2xl,
         #gameOverModal .font-semibold {
-          font-size: 0.7rem !important;
-          margin-bottom: 0.2rem !important;
+          font-size: 0.6rem !important;
+          margin-bottom: 0.1rem !important;
         }
 
         #gameOverModal input {
-          font-size: 0.8rem !important;
+          font-size: 0.7rem !important;
           padding: 0.2rem !important;
+          margin: 0.2rem 0 !important;
         }
 
         #gameOverModal button {
-          font-size: 0.7rem !important;
-          padding: 0.2rem 0.8rem !important;
+          font-size: 0.6rem !important;
+          padding: 0.2rem 0.6rem !important;
         }
 
         #modalLeaderboardList {
-          font-size: 0.6rem !important;
-          max-height: 60px !important;
+          font-size: 0.55rem !important;
+          max-height: 45px !important;
           padding: 0.2rem !important;
+          margin: 0.2rem 0 !important;
         }
       }
     </style>
@@ -451,7 +452,7 @@
             </div>
           </div>
           <div
-            class="flex items-center gap-2 sm:gap-4 whitespace-nowrap flex-shrink-0"
+            class="flex flex-col items-left gap-2 sm:gap-4 whitespace-nowrap flex-shrink-0"
           >
             <div class="flex items-center gap-1">
               <i class="fas fa-star text-yellow-500"></i>
@@ -476,7 +477,7 @@
         <div class="canvas-wrapper">
           <canvas
             id="gameCanvas"
-            width="1100"
+            width="2000"
             height="580"
             class="shadow-2xl bg-white"
           ></canvas>

@@ -267,8 +267,7 @@
     currentTargetHanzi = currentQuestion.hanzi;
     questionTextEl.innerHTML = `
             <div>${currentQuestion.arti.toUpperCase()}</div>
-            <div>${currentQuestion.pinyin}</div>
-            <div>${currentQuestion.hanzi}</div>
+            <div>${currentQuestion.pinyin} ${currentQuestion.hanzi}</div>
           `;
   }
 
