@@ -227,36 +227,38 @@
       /* Perbaikan untuk mobile HP (max-width 640px) */
       @media (max-width: 640px) {
         .game-header {
-          padding: 4px 6px !important;
-          gap: 4px !important;
+          padding: 2px 4px !important;
+          gap: 1px !important;
+          flex-wrap: nowrap !important;
         }
 
         .game-header img {
-          height: 32px !important; /* logo lebih kecil */
+          height: 24px !important; /* logo lebih kecil */
         }
 
         .game-header .text-3xl {
-          font-size: 1rem !important; /* TOP SCORER */
+          font-size: 0.85rem !important; /* TOP SCORER */
         }
 
         .game-header .text-2xl {
-          font-size: 0.7rem !important; /* skor, nyawa, top scorer */
+          font-size: 0.65rem !important; /* skor, nyawa, top scorer */
         }
 
         #topScorerList {
-          font-size: 0.7rem !important;
+          font-size: 0.65rem !important;
         }
 
         .game-header .text-center .text-2xl {
           font-size: 0.5rem !important; /* teks "TANGKAP KOTAK..." */
           white-space: normal !important; /* biar bisa turun baris */
           letter-spacing: normal !important;
+          flex-shrink: 1;
         }
 
         #questionText {
-          font-size: 0.5rem !important;
-          white-space: normal !important;
-          line-height: 1.2 !important;
+          font-size: 0.55rem !important; /* perkecil teks soal lebih lanjut */
+          white-space: nowrap !important;
+          line-height: 0.5 !important;
         }
 
         .game-header .flex.items-center.gap-1 {
@@ -271,6 +273,14 @@
         .game-header .fas.fa-star,
         .game-header .fas.fa-heart {
           font-size: 0.2rem !important;
+        }
+        .canvas-wrapper {
+          overflow: visible; /* biar kelebihan tidak terpotong */
+        }
+        #gameCanvas {
+          width: 125% !important;
+          max-width: 125% !important;
+          margin-left: -12.5% !important; /* pusatkan dengan offset negatif */
         }
       }
 
