@@ -232,7 +232,7 @@
           transform: rotate(90deg) translateY(-100%);
           transform-origin: 0 0;
           width: 100vh;
-          height: 100vw;
+          height: 100dvw;
           position: absolute;
           top: 0;
           left: 0;
@@ -280,6 +280,38 @@
           font-size: 0.7rem;
           white-space: normal;
           text-align: center;
+        }
+      }
+
+      /* Saat tinggi layar ≤ 600px (HP landscape) */
+      @media (max-height: 600px) {
+        .card {
+          aspect-ratio: 1 / 1.1;
+        }
+        .card-hanzi {
+          font-size: clamp(1.2rem, 4vh, 1.8rem);
+        }
+        .card-pinyin {
+          font-size: clamp(0.5rem, 2vh, 0.8rem);
+        }
+        .card-arti {
+          font-size: clamp(0.55rem, 2.2vh, 0.85rem);
+        }
+      }
+
+      /* Saat tinggi lebih ekstrem ≤ 500px */
+      @media (max-height: 500px) {
+        .card {
+          aspect-ratio: 1 / 1.1;
+        }
+        .card-hanzi {
+          font-size: clamp(1.3rem, 3.5vh, 1.5rem);
+        }
+        .card-pinyin {
+          font-size: clamp(0.45rem, 1.8vh, 0.7rem);
+        }
+        .card-arti {
+          font-size: clamp(0.5rem, 2vh, 0.75rem);
         }
       }
     </style>
