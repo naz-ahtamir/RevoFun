@@ -266,8 +266,7 @@
     currentQuestion = { ...FULL_VOCAB[randomIdx] };
     currentTargetHanzi = currentQuestion.hanzi;
     questionTextEl.innerHTML = `
-            <div>${currentQuestion.arti.toUpperCase()}</div>
-            <div>${currentQuestion.pinyin} ${currentQuestion.hanzi}</div>
+            <div>${currentQuestion.arti.toUpperCase()} ${currentQuestion.pinyin} ${currentQuestion.hanzi}</div>
           `;
   }
 
