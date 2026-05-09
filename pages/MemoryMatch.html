@@ -286,7 +286,7 @@
       /* Saat tinggi layar ≤ 600px (HP landscape) */
       @media (max-height: 600px) {
         .card {
-          aspect-ratio: 1 / 0.8;
+          aspect-ratio: 1 / 1;
         }
         .card-hanzi {
           font-size: clamp(1.2rem, 4vh, 1.8rem);
@@ -302,7 +302,7 @@
       /* Saat tinggi lebih ekstrem ≤ 500px */
       @media (max-height: 500px) {
         .card {
-          aspect-ratio: 1 / 0.8;
+          aspect-ratio: 1 / 1;
         }
         .card-hanzi {
           font-size: clamp(1.3rem, 3.5vh, 1.5rem);
@@ -346,7 +346,7 @@
           </div>
         </div>
         <!-- Board 2x6 dengan kartu fix -->
-        <div id="gameBoard" class="memory-board"></div>
+        <div id="gameBoard" class="memory-board flex-start"></div>
       </div>
     </div>
     <button id="resetBtn" class="fixed-btn btn-reset">
