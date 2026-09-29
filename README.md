@@ -4,7 +4,7 @@ RevoFun is a static website that offers an interactive gaming platform for learn
 
 ## Live Demo
 
-A live version of the project can be accessed at:  
+A live version of the project can be accessed at :  
 [https://naz-ahtamir.github.io/RevoFun/](https://naz-ahtamir.github.io/RevoFun/)
 
 ## Overview
