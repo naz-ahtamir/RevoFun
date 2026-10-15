@@ -8,7 +8,7 @@
     />
     <title>Mandarin Catcher | RevoFun</title>
     <!-- Favicon -->
-    <link rel="icon" type="image/webp" href="images/favicon-new.webp" />
+    <link rel="icon" type="image/webp" href="../images/favicon-new.webp" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link
       rel="stylesheet"
@@ -17,7 +17,7 @@
     <style>
       @font-face {
         font-family: "BobbyJones";
-        src: url("/fonts/BobbyJones.woff2") format("woff2");
+        src: url("../fonts/BobbyJones.woff2") format("woff2");
         font-weight: normal;
         font-style: normal;
       }
@@ -37,7 +37,7 @@
         position: fixed;
         top: 0;
         left: 0;
-        background-image: url("/images/bg-mandarin-catcher.webp");
+        background-image: url("../images/bg-mandarin-catcher.webp");
         background-size: cover;
         background-position: center center;
         background-repeat: no-repeat;
@@ -414,7 +414,7 @@
     </style>
   </head>
 
-  <body class="bg-[url('/images/bg-mandarin-catcher.webp')] bg-cover bg-center">
+  <body class="bg-[url('../images/bg-mandarin-catcher.webp')] bg-cover bg-center">
     <!-- container utama - memaksa landscape di semua device -->
     <div class="game-container">
       <div class="game-inner">
@@ -422,7 +422,7 @@
         <div class="game-header">
           <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <img
-              src="/images/logo-revofun.webp"
+              src="../images/logo-revofun.webp"
               alt="Logo"
               class="h-12 sm:h-16 md:h-20 w-auto object-contain"
             />
@@ -493,7 +493,7 @@
       id="backHomeBtn"
       type="button"
       title="Back to Home"
-      onclick="window.location.href = '/'"
+      onclick="window.location.href = '/RevoFun/'"
       class="fixed-bottom-left fixed-btn hover:bg-blue-600"
     >
       <i class="fas fa-home"></i>
@@ -540,6 +540,6 @@
         </div>
       </div>
     </div>
-    <script src="/pages/MandarinCatcher.js" defer></script>
+    <script src="./MandarinCatcher.js" defer></script>
   </body>
 </html>
